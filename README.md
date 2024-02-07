@@ -1,5 +1,3 @@
 # SRMP-Spectral-Fitter
 
-## Hello Worl
-
-hjuld
+## Hello World
