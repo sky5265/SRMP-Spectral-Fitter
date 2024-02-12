@@ -4,7 +4,9 @@ import sys
 import emcee
 import corner
 import matplotlib.pyplot as plt
+import matplotlib
 from scipy.optimize import curve_fit
+
 
 def normal_dist (x, mu, sigma, c):
   A = (1/(sigma*(2*np.pi)**0.5))
@@ -23,10 +25,12 @@ def import_data (filename):
     data = np.loadtxt(filename)
     wavelengths = data[:,0]
     fluxes = data[:,1]
+    matplotlib.use('TkAgg')
     plt.plot(wavelengths, fluxes, "b-")
     plt.xlabel("Wavelengths (Angstrom)")
     plt.ylabel("Flux ")
     plt.show()
+    plt.savefig('ori_data.pdf', bbox_inches='tight')
     return  wavelengths, fluxes
 
 def window_range (wavelengths, fluxes, x1, x2):
