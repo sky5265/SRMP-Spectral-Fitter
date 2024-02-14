@@ -30,7 +30,7 @@ def import_data (filename):
     plt.xlabel("Wavelengths (Angstrom)")
     plt.ylabel("Flux ")
     plt.show()
-    plt.savefig('ori_data.pdf', bbox_inches='tight')
+    plt.savefig('plot/ori_data.pdf/', bbox_inches='tight')
     return  wavelengths, fluxes
 
 def window_range (wavelengths, fluxes, x1, x2):
