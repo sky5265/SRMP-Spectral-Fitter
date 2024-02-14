@@ -101,5 +101,13 @@ def Fitting_function(wavelengths, fluxes,Rest_W, window_low, window_high)
         return v
    
 
-   return 
+   return v
     
+
+
+print (np.median(v))
+
+plt.hist (v)
+plt.xlabel("velocity")
+plt.ylabel("Ocurrence")
+Plt.show()
