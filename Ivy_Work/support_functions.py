@@ -21,39 +21,6 @@ def loss_func (var, x, y_true):
     y_fitted = normal_dist(x = x, mu = mu, sigma = sigma, c = c)
     return -np.sum((y_true - y_fitted)**2)/err**2 - err
     
-def import_data (filename):
-    data = np.loadtxt(filename)
-    wavelengths = data[:,0]
-    fluxes = data[:,1]
-    matplotlib.use('TkAgg')
-    plt.plot(wavelengths, fluxes, "b-")
-    plt.xlabel("Wavelengths (Angstrom)")
-    plt.ylabel("Flux ")
-    plt.show()
-    plt.savefig('plot/ori_data.pdf/', bbox_inches='tight')
-    return  wavelengths, fluxes
-
-def window_range (wavelengths, fluxes, x1, x2):
-    idx = np.where ((wavelengths > x1) & (wavelengths < x2))
-
-    wavelengths_window = wavelengths[idx]
-    fluxes_window = fluxes[idx]
-
-    wavelengths_normalized = (wavelengths_window - np.mean(wavelengths_window))/np.std(wavelengths_window)
-    fluxes_normalized = (fluxes_window)/np.max(fluxes_window)
-
-
-    plt.plot(wavelengths_window, fluxes_window, "b-")
-    plt.xlabel("Wavelengths (Angstrom)")
-    plt.ylabel("Flux ")
-    plt.show()
-
-    plt.plot(wavelengths_normalized, fluxes_normalized, "b-")
-    plt.xlabel("Wavelengths (Angstrom)")
-    plt.ylabel("Flux ")
-    plt.show()
-
-    return wavelengths_window, fluxes_window, wavelengths_normalized, fluxes_normalized
 
 def runwalker (nwalkers, ndim, n_iterations,mu_reasonable, sigma_reasonable, c_reasonable, err_reasonable):
     initial_guesses = []
@@ -63,11 +30,14 @@ def runwalker (nwalkers, ndim, n_iterations,mu_reasonable, sigma_reasonable, c_r
         c_guess = c_reasonable * (1+np.random.random())
         err_guess = err_reasonable * (1+np.random.random())
         initial_guesses.append([mu_guess, sigma_guess, c_guess, err_guess])
+        from import_data import wavelengths_normalized, fluxes_normalized
     sampler = emcee.EnsembleSampler(nwalkers, ndim, loss_func, kwargs = {"y_true":fluxes_normalized, "x":wavelengths_normalized})
     sampler.run_mcmc(initial_guesses, n_iterations, progress = True)
     return sampler
 
 def plot (samples, sampler):
+    from import_data import filename, wavelengths_window, fluxes_window, wavelengths_normalized, fluxes_normalized
+    
     found_mu_s = samples[:, :, 0]
     found_sigma_s = samples[:, :, 1]
     found_c_s = samples[:, :, 2]
@@ -120,10 +90,14 @@ def plot (samples, sampler):
     plt.ylabel(r'y', fontsize = 20)
     plt.legend(fontsize = 10)
     plt.show()
+    plt.savefig('plot/normalized_fit.pdf', bbox_inches='tight')
+    plt.close()
 
     flat_samples = sampler.get_chain(discard=100, thin=15, flat=True)
     labels = ['mu', 'sigma', 'c', 'err']
     fig = corner.corner(flat_samples, labels=labels);
+    plt.savefig('plot/normalized_corner.pdf', bbox_inches='tight')
+    plt.close()
 
     last_mu_s = found_mu_s[-1,:]
     last_sigma_s = found_sigma_s[-1,:]
