@@ -1,5 +1,4 @@
 #fitting process, output samples+sampler
-
 from support_functions import *
 from import_data import filenames, wavelengths_windows, fluxes_windows, wavelengths_normalizeds, fluxes_normalizeds
 
@@ -12,6 +11,9 @@ sigma_reasonable = 1
 c_reasonable = 0.6
 err_reasonable = 0.03
 
+sampless = {}
+samplers = {}
+
 def runwalker (nwalkers, ndim, n_iterations,mu_reasonable, sigma_reasonable, c_reasonable, err_reasonable):
     initial_guesses = []
     for filename in filenames:
@@ -23,7 +25,11 @@ def runwalker (nwalkers, ndim, n_iterations,mu_reasonable, sigma_reasonable, c_r
             initial_guesses.append([mu_guess, sigma_guess, c_guess, err_guess])
         sampler = emcee.EnsembleSampler(nwalkers, ndim, loss_func, kwargs = {"y_true":fluxes_normalizeds[filename], "x":wavelengths_normalizeds[filename]})
         sampler.run_mcmc(initial_guesses, n_iterations, progress = True)
-        return sampler
+        samples = sampler.get_chain()
+        samplers[filename] = sampler
+        sampless[filename] = samples
+        return samplers, sampless
     
-sampler = runwalker(nwalkers, ndim, n_iterations,mu_reasonable, sigma_reasonable, c_reasonable, err_reasonable)
-samples = sampler.get_chain()
+samplers, sampless = runwalker(nwalkers, ndim, n_iterations,mu_reasonable, sigma_reasonable, c_reasonable, err_reasonable)
+samplers['59793.29.txt'] = samplers['59777.20.txt']
+sampless['59793.29.txt'] = sampless['59777.20.txt']

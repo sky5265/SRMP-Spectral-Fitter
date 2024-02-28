@@ -1,5 +1,8 @@
 #enter filename, rest wavelength
 import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.rcParams['interactive'] == True
+matplotlib.use('Agg')
 import numpy as np
 import os
 

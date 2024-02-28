@@ -6,6 +6,7 @@ import corner
 import matplotlib.pyplot as plt
 import matplotlib
 from scipy.optimize import curve_fit
+matplotlib.rcParams['interactive'] == True
 
 
 def normal_dist (x, mu, sigma, c):
