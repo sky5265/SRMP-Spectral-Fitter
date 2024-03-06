@@ -15,8 +15,8 @@ sampless = {}
 samplers = {}
 
 def runwalker (nwalkers, ndim, n_iterations,mu_reasonable, sigma_reasonable, c_reasonable, err_reasonable):
-    initial_guesses = []
-    for filename in filenames:
+    for filename in filenames: 
+        initial_guesses = []
         for walker in range(nwalkers):
             mu_guess = mu_reasonable * (1+np.random.random())
             sigma_guess = sigma_reasonable * (1+np.random.random())
@@ -28,8 +28,7 @@ def runwalker (nwalkers, ndim, n_iterations,mu_reasonable, sigma_reasonable, c_r
         samples = sampler.get_chain()
         samplers[filename] = sampler
         sampless[filename] = samples
-        return samplers, sampless
+    return samplers, sampless
     
 samplers, sampless = runwalker(nwalkers, ndim, n_iterations,mu_reasonable, sigma_reasonable, c_reasonable, err_reasonable)
-samplers['59793.29.txt'] = samplers['59777.20.txt']
-sampless['59793.29.txt'] = sampless['59777.20.txt']
+

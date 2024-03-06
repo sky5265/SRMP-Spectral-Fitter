@@ -75,7 +75,7 @@ def plot (sampless, samplers):
 
         real_mu_s_s[filename] = last_mu_s * np.std(wavelengths_windows[filename]) + np.mean(wavelengths_windows[filename])
         real_sigma_s_s[filename] = last_sigma_s * np.std(wavelengths_windows[filename]) 
-        real_c_s_s[filename] = last_c_s* np.max(fluxes_windows[filename])
+        real_c_s_s[filename] = last_c_s* np.std(fluxes_windows[filename]) + np.mean(fluxes_windows[filename])
         
         x1 = np.linspace(lowerbound,upperbound,500)
         plt.scatter(wavelengths_windows[filename], fluxes_normalizeds[filename], color = "red", linewidth = 0.5, label = filename)
@@ -83,14 +83,13 @@ def plot (sampless, samplers):
         for walker in range(len(last_mu_s)):
             mu = np.mean(real_mu_s_s[filename])
             sigma = np.mean(real_sigma_s_s[filename])
-            c = last_c_s[walker]
+            c = np.mean(real_c_s_s[filename])
             y_fitted = normal_dist(x = x1, mu = mu, sigma= sigma, c = c)
             if 'Fitted' not in labels_added:
                 plt.plot(x1, y_fitted, color = 'green', linewidth = 0.1, label = 'Fitted')
                 labels_added.append("Fitted")
             else:
                 plt.plot(x1, y_fitted, color = 'green', linewidth = 2)
-            print(c)
         plt.xlabel('x', fontsize = 20)
         plt.ylabel(r'y', fontsize = 20)
         plt.legend(fontsize = 10)
@@ -103,11 +102,9 @@ def plot (sampless, samplers):
     
 real_mu_s_s, real_sigma_s_s, real_c_s_s = plot(sampless, samplers)
 
-print(real_mu_s_s)
-print(real_sigma_s_s)
-
 for filename in filenames:
     c_light = 3.0E5
     velocity = (np.mean(real_mu_s_s[filename])-true_wavelength)/true_wavelength * c_light
     out = open('Spectrum_'+ filename[:filename.index('.txt')] +'/Results_' + filename[:filename.index('.txt')] + '.txt', 'w')
     out.write('Real mean is at ' + str(np.mean(real_mu_s_s[filename])) + '\n' + 'Velocity is '+ str(velocity) + ' km/s')
+    
