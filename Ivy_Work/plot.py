@@ -3,6 +3,7 @@ from support_functions import *
 from import_data import filenames, wavelengths_windows, fluxes_windows, wavelengths_normalizeds, fluxes_normalizeds, true_wavelength
 from import_data import *
 from fitting import sampless, samplers
+from tqdm import tqdm
 
 real_mu_s_s = {}
 real_sigma_s_s = {}
@@ -78,13 +79,13 @@ def plot (sampless, samplers):
         real_c_s_s[filename] = last_c_s* np.std(fluxes_windows[filename]) + np.mean(fluxes_windows[filename])
         
         x1 = np.linspace(lowerbound,upperbound,500)
-        plt.scatter(wavelengths_windows[filename], fluxes_normalizeds[filename], color = "red", linewidth = 0.5, label = filename)
+        plt.scatter(wavelengths_windows[filename], fluxes_windows[filename], color = "red", linewidth = 0.5, label = filename)
         labels_added = []
         for walker in range(len(last_mu_s)):
-            mu = np.mean(real_mu_s_s[filename])
-            sigma = np.mean(real_sigma_s_s[filename])
-            c = np.mean(real_c_s_s[filename])
-            y_fitted = normal_dist(x = x1, mu = mu, sigma= sigma, c = c)
+            mu = last_mu_s[walker]
+            sigma = last_sigma_s[walker]
+            c = last_c_s[walker]
+            y_fitted = normal_dist(x = x0, mu = mu, sigma= sigma, c = c) * np.std(fluxes_windows[filename]) + np.mean(fluxes_windows[filename])
             if 'Fitted' not in labels_added:
                 plt.plot(x1, y_fitted, color = 'green', linewidth = 0.1, label = 'Fitted')
                 labels_added.append("Fitted")
@@ -92,11 +93,11 @@ def plot (sampless, samplers):
                 plt.plot(x1, y_fitted, color = 'green', linewidth = 2)
         plt.xlabel('x', fontsize = 20)
         plt.ylabel(r'y', fontsize = 20)
+        plt.yticks([])
         plt.legend(fontsize = 10)
         plt.show()
         plt.savefig('Spectrum_'+ filename[:filename.index('.txt')] + '/' + 'fit_'+ filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
         plt.close()
-        print(y_fitted)
 
     return real_mu_s_s, real_sigma_s_s, real_c_s_s
     

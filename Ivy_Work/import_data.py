@@ -32,13 +32,14 @@ def import_data (filenames, x1, x2):
         fluxes_window = fluxes[idx]
 
         wavelengths_normalized = (wavelengths_window - np.mean(wavelengths_window))/np.std(wavelengths_window)
-        fluxes_normalized = (fluxes_window)/np.max(fluxes_window)
+        fluxes_normalized = (fluxes_window- np.mean(fluxes_window)/np.std(fluxes_window))
 
         wavelengths_windows[filename] = wavelengths_window
         fluxes_windows[filename] = fluxes_window
         wavelengths_normalizeds[filename] = wavelengths_normalized
         fluxes_normalizeds[filename] = fluxes_normalized
-
+        print(fluxes_window)
+        
         plt.plot(wavelengths_window, fluxes_window, "b-")
         plt.xlabel("Wavelengths (Angstrom)")
         plt.ylabel("Flux ")
