@@ -1,2 +1,0 @@
-Real mean is at 7679.801234374952
-Velocity is -3673.2642684905823 km/s

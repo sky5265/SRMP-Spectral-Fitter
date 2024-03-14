@@ -17,13 +17,15 @@ def import_data (filenames, x1, x2):
         wavelengths = data_loaded[:,0]
         fluxes = data_loaded[:,1]
         
-        if not os.path.isdir('Spectrum_'+filename[:filename.index('.txt')]):
-            os.mkdir('Spectrum_'+filename[:filename.index('.txt')])
-        
+        if not os.path.isdir('Results'):
+            os.mkdir('Results')
+        if not os.path.isdir('Results/Spectrum_'+filename[:filename.index('.txt')]):
+            os.mkdir('Results/Spectrum_'+filename[:filename.index('.txt')])
+            
         plt.plot(wavelengths, fluxes, "b-")
         plt.xlabel("Wavelengths (Angstrom)")
         plt.ylabel("Flux ")
-        plt.savefig('Spectrum_'+ filename[:filename.index('.txt')] +'/ori_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
+        plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] +'/ori_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
         plt.close()
         
         idx = np.where ((wavelengths > x1) & (wavelengths < x2))
@@ -38,13 +40,12 @@ def import_data (filenames, x1, x2):
         fluxes_windows[filename] = fluxes_window
         wavelengths_normalizeds[filename] = wavelengths_normalized
         fluxes_normalizeds[filename] = fluxes_normalized
-        print(fluxes_window)
         
         plt.plot(wavelengths_window, fluxes_window, "b-")
         plt.xlabel("Wavelengths (Angstrom)")
         plt.ylabel("Flux ")
         plt.show()
-        plt.savefig('Spectrum_'+ filename[:filename.index('.txt')] + '/window_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
+        plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] + '/window_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
         plt.close()
 
     return wavelengths_windows, fluxes_windows, wavelengths_normalizeds, fluxes_normalizeds

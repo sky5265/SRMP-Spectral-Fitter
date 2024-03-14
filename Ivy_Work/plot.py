@@ -65,13 +65,13 @@ def plot (sampless, samplers):
         plt.ylabel(r'y', fontsize = 20)
         plt.legend(fontsize = 10)
         plt.show()
-        plt.savefig('Spectrum_'+ filename[:filename.index('.txt')] + '/' + 'Normalized_fit_'+ filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
+        plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] + '/' + 'Normalized_fit_'+ filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
         plt.close()
       
         flat_samples = sampler.get_chain(discard=100, thin=15, flat=True)
         labels = ['mu', 'sigma', 'c', 'err']
         fig = corner.corner(flat_samples, labels=labels);
-        plt.savefig('Spectrum_'+ filename[:filename.index('.txt')] + '/' + 'Normalized_corner_'+ filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
+        plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] + '/' + 'Normalized_corner_'+ filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
         plt.close()
 
         real_mu_s_s[filename] = last_mu_s * np.std(wavelengths_windows[filename]) + np.mean(wavelengths_windows[filename])
@@ -96,16 +96,29 @@ def plot (sampless, samplers):
         plt.yticks([])
         plt.legend(fontsize = 10)
         plt.show()
-        plt.savefig('Spectrum_'+ filename[:filename.index('.txt')] + '/' + 'fit_'+ filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
+        plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] + '/' + 'fit_'+ filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
         plt.close()
 
     return real_mu_s_s, real_sigma_s_s, real_c_s_s
     
 real_mu_s_s, real_sigma_s_s, real_c_s_s = plot(sampless, samplers)
 
+velocity_s = []
+
 for filename in filenames:
     c_light = 3.0E5
     velocity = (np.mean(real_mu_s_s[filename])-true_wavelength)/true_wavelength * c_light
-    out = open('Spectrum_'+ filename[:filename.index('.txt')] +'/Results_' + filename[:filename.index('.txt')] + '.txt', 'w')
-    out.write('Real mean is at ' + str(np.mean(real_mu_s_s[filename])) + '\n' + 'Velocity is '+ str(velocity) + ' km/s')
+    velocity_s.append(velocity)
+    out = open('Results/Spectrum_'+ filename[:filename.index('.txt')] +'/Results_' + filename[:filename.index('.txt')] + '.txt', 'w')
+    out.write('Real mean is at ' + str(np.mean(real_mu_s_s[filename])) + '\n' + 'Velocity is '+ str(velocity) + ' km/s' + '\n' + 'Results of walkers:'+'\n'+ "Real mu's: " + str(real_mu_s_s[filename]) +'\n' + "Real sigma's: " + str(real_sigma_s_s[filename]) )
     
+filename = []
+for file in filenames:
+    file = file[:file.index('.txt')]
+    filename.append(file)
+    
+plt.plot(filename, velocity_s, "b-")
+plt.xlabel("time")
+plt.ylabel("velocity ")
+plt.savefig('Results' + '/Velocity_Over_Time' + '.pdf', bbox_inches='tight')
+plt.close()

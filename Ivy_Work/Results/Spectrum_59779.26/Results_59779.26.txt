@@ -1,0 +1,7 @@
+Real mean is at nan
+Velocity is nan km/s
+Results of walkers:
+Real mu's: [nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+ nan nan nan nan nan nan nan nan nan nan nan nan nan nan]
+Real sigma's: [nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+ nan nan nan nan nan nan nan nan nan nan nan nan nan nan]
