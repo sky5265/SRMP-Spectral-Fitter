@@ -10,10 +10,14 @@ wavelengths_windows = {}
 fluxes_windows = {}
 wavelengths_normalizeds = {}
 fluxes_normalizeds = {}
-
+def user_input():
+    lowerbound = float(input("lowerbound: "))
+    upperbound = float(input("upperbound: "))
+    return lowerbound, upperbound
+    
 def import_data (filenames, x1, x2):
     for filename in filenames:
-        data_loaded = np.loadtxt(input + '/' + filename)
+        data_loaded = np.loadtxt('data/' + filename)
         wavelengths = data_loaded[:,0]
         fluxes = data_loaded[:,1]
         
@@ -32,14 +36,6 @@ def import_data (filenames, x1, x2):
 
         wavelengths_window = wavelengths[idx]
         fluxes_window = fluxes[idx]
-
-        wavelengths_normalized = (wavelengths_window - np.mean(wavelengths_window))/np.std(wavelengths_window)
-        fluxes_normalized = (fluxes_window- np.mean(fluxes_window)/np.std(fluxes_window))
-
-        wavelengths_windows[filename] = wavelengths_window
-        fluxes_windows[filename] = fluxes_window
-        wavelengths_normalizeds[filename] = wavelengths_normalized
-        fluxes_normalizeds[filename] = fluxes_normalized
         
         plt.plot(wavelengths_window, fluxes_window, "b-")
         plt.xlabel("Wavelengths (Angstrom)")
@@ -47,17 +43,42 @@ def import_data (filenames, x1, x2):
         plt.show()
         plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] + '/window_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
         plt.close()
-
+        
+        answer = input("Workig on file " +filename+ ": Do you like the window? y/n: ") 
+        while answer.lower() == "n": 
+            lowerbound, upperbound = user_input()
+            idx = np.where ((wavelengths > lowerbound) & (wavelengths < upperbound))
+            wavelengths_window = wavelengths[idx]
+            fluxes_window = fluxes[idx]
+            plt.plot(wavelengths_window, fluxes_window, "b-")
+            plt.xlabel("Wavelengths (Angstrom)")
+            plt.ylabel("Flux ")
+            plt.show()
+            plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] + '/window_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
+            plt.close()
+            answer = input("Workig on file " +filename+ ": Do you like the new window? y/n: ")
+        else:            
+            wavelengths_normalized = (wavelengths_window - np.mean(wavelengths_window))/np.std(wavelengths_window)
+            fluxes_normalized = (fluxes_window- np.mean(fluxes_window)/np.std(fluxes_window))
+            wavelengths_windows[filename] = wavelengths_window
+            fluxes_windows[filename] = fluxes_window
+            wavelengths_normalizeds[filename] = wavelengths_normalized
+            fluxes_normalizeds[filename] = fluxes_normalized  
+            
     return wavelengths_windows, fluxes_windows, wavelengths_normalizeds, fluxes_normalizeds
 
-input = 'data'
 filenames = []
-for file in os.listdir(input):
+for file in os.listdir('data'):
     if file.endswith('.txt'):
         filenames.append(file)
 
 true_wavelength = 7775
 lowerbound = 7500
 upperbound = 7860
+
+#true_wavelength = float(input('what is the true wavelength?'))
+#lowerbound = float(input('what is the lowerbound?'))
+#upperbound = float(input('what is the upperbound?'))
+
 
 wavelengths_windows, fluxes_windows, wavelengths_normalizeds, fluxes_normalizeds = import_data(filenames, lowerbound, upperbound)

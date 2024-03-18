@@ -19,30 +19,6 @@ def plot (sampless, samplers):
         found_c_s = samples[:, :, 2]
         found_err_s = samples[:, :, 3]
 
-        plt.plot(range(0, len(found_mu_s)), found_mu_s, color = 'grey')
-        plt.ylabel(r'mu', fontsize = 35)
-        plt.xlabel("Iterations", fontsize = 35)
-        plt.show()
-        plt.close()
-
-        plt.plot(range(0, len(found_sigma_s)), found_sigma_s, color = 'grey')
-        plt.ylabel(r'sigma', fontsize = 35)
-        plt.xlabel("Iterations", fontsize = 35)
-        plt.show()
-        plt.close()
-
-        plt.plot(range(0, len(found_c_s)), found_c_s, color = 'grey')
-        plt.ylabel(r'c', fontsize = 35)
-        plt.xlabel("Iterations", fontsize = 35)
-        plt.show()
-        plt.close()
-
-        plt.plot(range(0, len(found_err_s)), found_err_s, color = 'grey')
-        plt.ylabel(r'err', fontsize = 35)
-        plt.xlabel("Iterations", fontsize = 35)
-        plt.show()
-        plt.close()
-
         last_mu_s = found_mu_s[-1,:]
         last_sigma_s = found_sigma_s[-1,:]
         last_c_s = found_c_s[-1,:]
@@ -104,21 +80,26 @@ def plot (sampless, samplers):
 real_mu_s_s, real_sigma_s_s, real_c_s_s = plot(sampless, samplers)
 
 velocity_s = []
+velocity_std_s = []
 
 for filename in filenames:
     c_light = 3.0E5
-    velocity = (np.mean(real_mu_s_s[filename])-true_wavelength)/true_wavelength * c_light
+    velocity = np.median(((real_mu_s_s[filename])-true_wavelength)/true_wavelength * c_light)
+    velocity_std = np.std(((real_mu_s_s[filename])-true_wavelength)/true_wavelength * c_light)
     velocity_s.append(velocity)
+    velocity_std_s.append(velocity_std)
     out = open('Results/Spectrum_'+ filename[:filename.index('.txt')] +'/Results_' + filename[:filename.index('.txt')] + '.txt', 'w')
-    out.write('Real mean is at ' + str(np.mean(real_mu_s_s[filename])) + '\n' + 'Velocity is '+ str(velocity) + ' km/s' + '\n' + 'Results of walkers:'+'\n'+ "Real mu's: " + str(real_mu_s_s[filename]) +'\n' + "Real sigma's: " + str(real_sigma_s_s[filename]) )
+    out.write('Real mean is at ' + str(np.median(real_mu_s_s[filename])) + '\n' + 'Velocity is '+ str(velocity) + ' km/s' + '\n' + 'Results of walkers:'+'\n'+ "Real mu's: " + str(real_mu_s_s[filename]) +'\n' + "Real sigma's: " + str(real_sigma_s_s[filename]) )
     
 filename = []
 for file in filenames:
     file = file[:file.index('.txt')]
     filename.append(file)
-    
-plt.plot(filename, velocity_s, "b-")
+
+plt.scatter([float(i) for i in filename], velocity_s)
+plt.errorbar([float(i) for i in filename], velocity_s, velocity_std_s, ls='none')
 plt.xlabel("time")
 plt.ylabel("velocity ")
 plt.savefig('Results' + '/Velocity_Over_Time' + '.pdf', bbox_inches='tight')
 plt.close()
+
