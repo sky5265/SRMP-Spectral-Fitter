@@ -2,27 +2,22 @@
 from support_functions import *
 from import_data import filenames, wavelengths_windows, fluxes_windows, wavelengths_normalizeds, fluxes_normalizeds, true_wavelength
 from import_data import *
-from mcmc_fitting import samplers
 from tqdm import tqdm
+import sys
+sys.path.insert(1, '../Nahum_Fitting')
+from mcmc_fitting import *
 
-real_mu_s_s = {}
-real_sigma_s_s = {}
-real_c_s_s ={}
 
-def plot (samplers):
+def plot (mu, sigma, c, err):
+    real_mu_s_s = {}
+    real_sigma_s_s = {}
+    real_c_s_s ={}
     for filename in filenames:
-        sampler = samplers[filename]
-        samples = sampler.get_chain()
-        
-        found_mu_s = samples[:, :, 0]
-        found_sigma_s = samples[:, :, 1]
-        found_c_s = samples[:, :, 2]
-        found_err_s = samples[:, :, 3]
-
-        last_mu_s = found_mu_s[-1,:]
-        last_sigma_s = found_sigma_s[-1,:]
-        last_c_s = found_c_s[-1,:]
-        last_err_s = found_err_s[-1,:]
+               
+        last_mu_s = mu[filename][-1,:]
+        last_sigma_s = sigma[filename][-1,:]
+        last_c_s = c[filename][-1,:]
+        last_err_s = err[filename][-1,:]
 
         x0 = np.linspace(-1.5,1.5,500)
         plt.scatter(wavelengths_normalizeds[filename], fluxes_normalizeds[filename], color = "red", linewidth = 0.5, label = filename)
@@ -44,12 +39,6 @@ def plot (samplers):
         plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] + '/' + 'Normalized_fit_'+ filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
         plt.close()
       
-        flat_samples = sampler.get_chain(discard=100, thin=15, flat=True)
-        labels = ['mu', 'sigma', 'c', 'err']
-        fig = corner.corner(flat_samples, labels=labels);
-        plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] + '/' + 'Normalized_corner_'+ filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
-        plt.close()
-
         real_mu_s_s[filename] = last_mu_s * np.std(wavelengths_windows[filename]) + np.mean(wavelengths_windows[filename])
         real_sigma_s_s[filename] = last_sigma_s * np.std(wavelengths_windows[filename]) 
         real_c_s_s[filename] = last_c_s* np.std(fluxes_windows[filename]) + np.mean(fluxes_windows[filename])
@@ -76,8 +65,10 @@ def plot (samplers):
         plt.close()
 
     return real_mu_s_s, real_sigma_s_s, real_c_s_s
-    
-real_mu_s_s, real_sigma_s_s, real_c_s_s = plot(samplers)
+  
+mu, sigma, c, err = fitting(wavelengths_normalizeds, fluxes_normalizeds, ndim, nwalkers, loss_function, n_iterations, filenames)
+  
+real_mu_s_s, real_sigma_s_s, real_c_s_s = plot(mu, sigma, c, err)
 
 velocity_s = []
 velocity_std_s = []
