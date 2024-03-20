@@ -6,16 +6,16 @@ matplotlib.use('Agg')
 import numpy as np
 import os
 
-wavelengths_windows = {}
-fluxes_windows = {}
-wavelengths_normalizeds = {}
-fluxes_normalizeds = {}
 def user_input():
     lowerbound = float(input("lowerbound: "))
     upperbound = float(input("upperbound: "))
     return lowerbound, upperbound
     
 def import_data (filenames, x1, x2):
+    wavelengths_windows = {}
+    fluxes_windows = {}
+    wavelengths_normalizeds = {}
+    fluxes_normalizeds = {}
     for filename in filenames:
         data_loaded = np.loadtxt('data/' + filename)
         wavelengths = data_loaded[:,0]

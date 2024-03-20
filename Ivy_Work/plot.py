@@ -2,7 +2,7 @@
 from support_functions import *
 from import_data import filenames, wavelengths_windows, fluxes_windows, wavelengths_normalizeds, fluxes_normalizeds, true_wavelength
 from import_data import *
-from fitting import samplers
+from mcmc_fitting import samplers
 from tqdm import tqdm
 
 real_mu_s_s = {}

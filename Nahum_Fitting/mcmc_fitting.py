@@ -37,29 +37,32 @@ def create_initial_guesses(nwalkers):
     return initial_guesses
 
 
+def fitting(W_new, F_new, ndim, nwalkers, loss_function, n_iterations, filenames):
 
-
-def fitting(W_new, F_new, ndim, nwalkers, loss_function, n_iterations):
-
-    initial_guesses=(create_initial_guesses(nwalkers))
-    sampler = emcee.EnsembleSampler(nwalkers, ndim, loss_function, kwargs = {"y_true":F_new, "x": W_new})
-    sampler.run_mcmc(initial_guesses, n_iterations)
-
-    samples=sampler.get_chain()
+    mu = {}
+    sigma = {}
+    c = {}
+    err = {}
     
-    mu_found=samples[:,:,0]
-    sigma_found=samples[:,:,1]
-    c_found=samples[:,:,2]
-    err_found=samples[:,:,3]
+    for filename in filenames:
+        initial_guesses=(create_initial_guesses(nwalkers))
+        sampler = emcee.EnsembleSampler(nwalkers, ndim, loss_function, kwargs = {"y_true":F_new[filename], "x": W_new[filename]})
+        sampler.run_mcmc(initial_guesses, n_iterations)
 
-    mu=mu_found[-1,:]
-    sigma=sigma_found[-1,:]
-    c=c_found[-1,:]
-    err=err_found[-1,:]
+        samples=sampler.get_chain()
+        
+        mu_found=samples[:,:,0]
+        sigma_found=samples[:,:,1]
+        c_found=samples[:,:,2]
+        err_found=samples[:,:,3]
+                   
+        mu[filename] = mu_found
+        sigma[filename] = sigma_found
+        c[filename] = c_found
+        err[filename] = err_found
 
-    return mu, sigma, c, err, mu_found, sigma_found, c_found, err_found
 
-
+    return mu, sigma, c, err
 
 
 
