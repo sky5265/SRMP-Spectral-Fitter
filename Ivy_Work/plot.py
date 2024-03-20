@@ -2,17 +2,17 @@
 from support_functions import *
 from import_data import filenames, wavelengths_windows, fluxes_windows, wavelengths_normalizeds, fluxes_normalizeds, true_wavelength
 from import_data import *
-from fitting import sampless, samplers
+from fitting import samplers
 from tqdm import tqdm
 
 real_mu_s_s = {}
 real_sigma_s_s = {}
 real_c_s_s ={}
 
-def plot (sampless, samplers):
+def plot (samplers):
     for filename in filenames:
-        samples = sampless[filename]
         sampler = samplers[filename]
+        samples = sampler.get_chain()
         
         found_mu_s = samples[:, :, 0]
         found_sigma_s = samples[:, :, 1]
@@ -77,7 +77,7 @@ def plot (sampless, samplers):
 
     return real_mu_s_s, real_sigma_s_s, real_c_s_s
     
-real_mu_s_s, real_sigma_s_s, real_c_s_s = plot(sampless, samplers)
+real_mu_s_s, real_sigma_s_s, real_c_s_s = plot(samplers)
 
 velocity_s = []
 velocity_std_s = []
@@ -89,7 +89,9 @@ for filename in filenames:
     velocity_s.append(velocity)
     velocity_std_s.append(velocity_std)
     out = open('Results/Spectrum_'+ filename[:filename.index('.txt')] +'/Results_' + filename[:filename.index('.txt')] + '.txt', 'w')
-    out.write('Real mean is at ' + str(np.median(real_mu_s_s[filename])) + '\n' + 'Velocity is '+ str(velocity) + ' km/s' + '\n' + 'Results of walkers:'+'\n'+ "Real mu's: " + str(real_mu_s_s[filename]) +'\n' + "Real sigma's: " + str(real_sigma_s_s[filename]) )
+    out.write('Real mean is at ' + str(np.median(real_mu_s_s[filename])) + '\n' + 'Velocity is '+ str(velocity) + ' km/s' + '\n' + 
+    'Results of walkers:'+'\n'+ "Real mu's: " + str(real_mu_s_s[filename]) +'\n' + "Median of real mu's: " + str(np.median(real_mu_s_s[filename])) + '\n' + "Standard deviation of mu's: " + str(np.std(real_mu_s_s[filename])) + '\n\n'
+    "Real sigma's: " + str(real_sigma_s_s[filename]) + '\n' + "Median of real sigma's: " + str(np.median(real_sigma_s_s[filename]) + "Standard deviation of sigma's: " + str(np.std(real_sigma_s_s[filename])))
     
 filename = []
 for file in filenames:
