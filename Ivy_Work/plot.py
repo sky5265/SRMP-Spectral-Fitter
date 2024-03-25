@@ -13,11 +13,11 @@ def plot (mu, sigma, c, err):
     real_sigma_s_s = {}
     real_c_s_s ={}
     for filename in filenames:
-               
-        last_mu_s = mu[filename][-1,:]
-        last_sigma_s = sigma[filename][-1,:]
-        last_c_s = c[filename][-1,:]
-        last_err_s = err[filename][-1,:]
+       
+        last_mu_s = mu[filename][-1]
+        last_sigma_s = sigma[filename][-1]
+        last_c_s = c[filename][-1]
+        last_err_s = err[filename][-1]
 
         x0 = np.linspace(-1.5,1.5,500)
         plt.scatter(wavelengths_normalizeds[filename], fluxes_normalizeds[filename], color = "red", linewidth = 0.5, label = filename)
@@ -66,8 +66,28 @@ def plot (mu, sigma, c, err):
 
     return real_mu_s_s, real_sigma_s_s, real_c_s_s
   
-mu, sigma, c, err = fitting(wavelengths_normalizeds, fluxes_normalizeds, ndim, nwalkers, loss_function, n_iterations, filenames)
-  
+nwalkers = 20
+answer = input("How many walkers do you want (20) ? ")
+if answer is int(): 
+    nwalkers = answer
+    answer2 = input("The current number of walkers is " + str(nwalkers) + ". Do you like that number of walkers? y/n: ")
+    while answer2.lower() == 'n':
+        nwalkers = int(input("How many walkers do you want (" +str(nwalkers)+ " ) ? "))
+        answer2 = input("The current number of walkers is " + str(nwalkers) + ". Do you like that number of walkers? y/n: ")
+    
+
+n_iterations =5000
+answer = input("How many interations do you want (5000) ? ")
+if answer is int(): 
+    n_iterations = answer
+    answer2 = input("The current number of iterations is " + str(n_iterations) + ". Do you like that number of iterations? y/n: ")
+    while answer2.lower() == 'n':
+        nwalkers = int(input("How many iterations do you want (" +str(n_iterations)+ " )  ? "))
+        answer2 = input("The current number of walkers is " + str(n_iterations) + ". Do you like that number of walkers? y/n: ")
+    
+mu, sigma, c, err = fitting(wavelengths_normalizeds, fluxes_normalizeds, nwalkers, loss_function, n_iterations, filenames)
+print(mu) 
+
 real_mu_s_s, real_sigma_s_s, real_c_s_s = plot(mu, sigma, c, err)
 
 velocity_s = []
@@ -82,7 +102,7 @@ for filename in filenames:
     out = open('Results/Spectrum_'+ filename[:filename.index('.txt')] +'/Results_' + filename[:filename.index('.txt')] + '.txt', 'w')
     out.write('Real mean is at ' + str(np.median(real_mu_s_s[filename])) + '\n' + 'Velocity is '+ str(velocity) + ' km/s' + '\n' + 
     'Results of walkers:'+'\n'+ "Real mu's: " + str(real_mu_s_s[filename]) +'\n' + "Median of real mu's: " + str(np.median(real_mu_s_s[filename])) + '\n' + "Standard deviation of mu's: " + str(np.std(real_mu_s_s[filename])) + '\n\n'
-    "Real sigma's: " + str(real_sigma_s_s[filename]) + '\n' + "Median of real sigma's: " + str(np.median(real_sigma_s_s[filename]) + "Standard deviation of sigma's: " + str(np.std(real_sigma_s_s[filename])))
+    "Real sigma's: " + str(real_sigma_s_s[filename]) + '\n' + "Median of real sigma's: " + str(np.median(real_sigma_s_s[filename])) + "Standard deviation of sigma's: " + str(np.std(real_sigma_s_s[filename])))
     
 filename = []
 for file in filenames:

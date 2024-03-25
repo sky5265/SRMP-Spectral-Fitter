@@ -1,3 +1,5 @@
+from support_functions import *
+
 def normal_dist (x, mu, sigma, c):
     A = (1/(sigma*(2*np.pi)**0.5))
     B = -1*(x-mu)**2/(2*sigma**2)
@@ -37,8 +39,8 @@ def create_initial_guesses(nwalkers):
     return initial_guesses
 
 
-def fitting(W_new, F_new, ndim, nwalkers, loss_function, n_iterations, filenames):
-
+def fitting(W_new, F_new, nwalkers, loss_function, n_iterations, filenames):
+  
     mu = {}
     sigma = {}
     c = {}
@@ -46,7 +48,7 @@ def fitting(W_new, F_new, ndim, nwalkers, loss_function, n_iterations, filenames
     
     for filename in filenames:
         initial_guesses=(create_initial_guesses(nwalkers))
-        sampler = emcee.EnsembleSampler(nwalkers, ndim, loss_function, kwargs = {"y_true":F_new[filename], "x": W_new[filename]})
+        sampler = emcee.EnsembleSampler(nwalkers = nwalkers, ndim = 4, log_prob_fn = loss_function, kwargs = {"y_true":F_new[filename], "x": W_new[filename]})
         sampler.run_mcmc(initial_guesses, n_iterations)
 
         samples=sampler.get_chain()
@@ -63,6 +65,3 @@ def fitting(W_new, F_new, ndim, nwalkers, loss_function, n_iterations, filenames
 
 
     return mu, sigma, c, err
-
-
-

@@ -44,7 +44,7 @@ def import_data (filenames, x1, x2):
         plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] + '/window_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
         plt.close()
         
-        answer = input("Workig on file " +filename+ ": Do you like the window? y/n: ") 
+        answer = input("Workig on file " +filename+ ": Do you like the window? y/n (y): ") 
         while answer.lower() == "n": 
             lowerbound, upperbound = user_input()
             idx = np.where ((wavelengths > lowerbound) & (wavelengths < upperbound))
@@ -56,7 +56,7 @@ def import_data (filenames, x1, x2):
             plt.show()
             plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] + '/window_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
             plt.close()
-            answer = input("Workig on file " +filename+ ": Do you like the new window? y/n: ")
+            answer = input("Workig on file " +filename+ ": Do you like the new window? y/n (y): ")
         else:            
             wavelengths_normalized = (wavelengths_window - np.mean(wavelengths_window))/np.std(wavelengths_window)
             fluxes_normalized = (fluxes_window- np.mean(fluxes_window)/np.std(fluxes_window))

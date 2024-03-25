@@ -14,7 +14,7 @@ err_reasonable = 0.03
 sampless = {}
 samplers = {}
 
-def runwalker (nwalkers, ndim, n_iterations,mu_reasonable, sigma_reasonable, c_reasonable, err_reasonable):
+def runwalker (nwalkers, ndim, n_iterations, mu_reasonable, sigma_reasonable, c_reasonable, err_reasonable):
     for filename in filenames: 
         initial_guesses = []
         for walker in range(nwalkers):
