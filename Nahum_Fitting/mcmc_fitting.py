@@ -60,13 +60,12 @@ def fitting(W_new, F_new, ndim, nwalkers, loss_function, n_iterations, filenames
         sigma[filename] = sigma_found
         c[filename] = c_found
         err[filename] = err_found
-
-
-    return mu, sigma, c, err, samples
-
-flat_samples = sampler.get_chain(discard=100, thin=15, flat=True)
+        
+        flat_samples = sampler.get_chain(discard=100, thin=15, flat=True)
         labels = ['mu', 'sigma', 'c', 'err']
         fig = corner.corner(flat_samples, labels=labels);
         plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] + '/' + 'Normalized_corner_'+ filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
         plt.close()
 
+
+    return mu, sigma, c, err
