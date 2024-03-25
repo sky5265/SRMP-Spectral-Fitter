@@ -62,7 +62,7 @@ def fitting(W_new, F_new, ndim, nwalkers, loss_function, n_iterations, filenames
         err[filename] = err_found
 
 
-    return mu, sigma, c, err
+    return mu, sigma, c, err, samples
 
 flat_samples = sampler.get_chain(discard=100, thin=15, flat=True)
         labels = ['mu', 'sigma', 'c', 'err']
