@@ -67,18 +67,4 @@ def import_data (filenames, x1, x2):
             
     return wavelengths_windows, fluxes_windows, wavelengths_normalizeds, fluxes_normalizeds
 
-filenames = []
-for file in os.listdir('data'):
-    if file.endswith('.txt'):
-        filenames.append(file)
 
-true_wavelength = 7775
-lowerbound = 7500
-upperbound = 7860
-
-#true_wavelength = float(input('what is the true wavelength?'))
-#lowerbound = float(input('what is the lowerbound?'))
-#upperbound = float(input('what is the upperbound?'))
-
-
-wavelengths_windows, fluxes_windows, wavelengths_normalizeds, fluxes_normalizeds = import_data(filenames, lowerbound, upperbound)

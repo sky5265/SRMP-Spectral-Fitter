@@ -41,10 +41,10 @@ def create_initial_guesses(nwalkers):
 
 def fitting(W_new, F_new, nwalkers, loss_function, n_iterations, filenames):
   
-    mu = {}
-    sigma = {}
-    c = {}
-    err = {}
+    mu_s = {}
+    sigma_s = {}
+    c_s = {}
+    err_s = {}
     
     for filename in filenames:
         initial_guesses=(create_initial_guesses(nwalkers))
@@ -58,10 +58,10 @@ def fitting(W_new, F_new, nwalkers, loss_function, n_iterations, filenames):
         c_found=samples[:,:,2]
         err_found=samples[:,:,3]
                    
-        mu[filename] = mu_found
-        sigma[filename] = sigma_found
-        c[filename] = c_found
-        err[filename] = err_found
+        mu_s[filename] = mu_found
+        sigma_s[filename] = sigma_found
+        c_s[filename] = c_found
+        err_s[filename] = err_found
 
         flat_samples = sampler.get_chain(discard=100, thin=15, flat=True)
         labels = ['mu', 'sigma', 'c', 'err']
@@ -69,5 +69,4 @@ def fitting(W_new, F_new, nwalkers, loss_function, n_iterations, filenames):
         plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] + '/' + 'Normalized_corner_'+ filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
         plt.close()
 
-
-    return mu, sigma, c, err
+    return mu_s, sigma_s, c_s, err_s 
