@@ -7,5 +7,6 @@ import matplotlib.pyplot as plt
 import matplotlib
 from scipy.optimize import curve_fit
 matplotlib.rcParams['interactive'] == True
+import PyQt6
 
 

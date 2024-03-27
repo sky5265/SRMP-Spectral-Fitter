@@ -1,10 +1,10 @@
 #enter filename, rest wavelength
+from support_functions import *
 import matplotlib.pyplot as plt
 import matplotlib
-matplotlib.rcParams['interactive'] == True
-matplotlib.use('Agg')
 import numpy as np
 import os
+matplotlib.rcParams['interactive'] == True
 
 def user_input():
     lowerbound = float(input("lowerbound: "))
@@ -30,6 +30,7 @@ def import_data (filenames, x1, x2):
         plt.xlabel("Wavelengths (Angstrom)")
         plt.ylabel("Flux ")
         plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] +'/ori_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
+        plt.show()
         plt.close()
         
         idx = np.where ((wavelengths > x1) & (wavelengths < x2))
