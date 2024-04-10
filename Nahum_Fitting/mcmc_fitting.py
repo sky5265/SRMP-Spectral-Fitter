@@ -11,7 +11,7 @@ def normal_dist (x, mu, sigma, c):
 def loss_function(inp, x, y_true):
     mu, sigma, c, err = inp
 
-    if err < 0 or err>0.05 or c < 0 or mu < -10 or mu > 10 or sigma > 10 or sigma < 0:
+    if err < 0 or err>1 or c < 0 or mu < -10 or mu > 10 or sigma > 10 or sigma < 0:
         return -np.inf
 
 
@@ -33,7 +33,7 @@ def create_initial_guesses(nwalkers):
     for walker in range(nwalkers):
         mu_guess = mu_reasonable * (1+0.1*np.random.random())
         sigma_guess = sigma_reasonable * (1+0.1*np.random.random())
-        c_guess = c_reasonable * (1+0.1*np.random.random())
+        c_guess = c_reasonable * (1+1*np.random.random())
         err_guess = err_reasonable * (1+0.1*np.random.random())
         initial_guesses.append([mu_guess, sigma_guess,c_guess, err_guess])
     return initial_guesses

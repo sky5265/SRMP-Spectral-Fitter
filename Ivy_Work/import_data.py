@@ -61,7 +61,7 @@ def import_data (filenames, x1, x2, Q_V = 'Q'):
                 answer = input("Workig on file " +filename+ ": Do you like the new window? y/n (y): ")
 
         wavelengths_normalized = (wavelengths_window - np.mean(wavelengths_window))/np.std(wavelengths_window)
-        fluxes_normalized = (fluxes_window- np.mean(fluxes_window)/np.std(fluxes_window))
+        fluxes_normalized = (fluxes_window- np.mean(fluxes_window))/np.std(fluxes_window)
         wavelengths_windows[filename] = wavelengths_window
         fluxes_windows[filename] = fluxes_window
         wavelengths_normalizeds[filename] = wavelengths_normalized
