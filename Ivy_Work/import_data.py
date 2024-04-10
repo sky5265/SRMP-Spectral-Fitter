@@ -11,7 +11,7 @@ def user_input():
     upperbound = float(input("upperbound: "))
     return lowerbound, upperbound
     
-def import_data (filenames, x1, x2):
+def import_data (filenames, x1, x2, Q_V = 'Q'):
     wavelengths_windows = {}
     fluxes_windows = {}
     wavelengths_normalizeds = {}
@@ -30,7 +30,8 @@ def import_data (filenames, x1, x2):
         plt.xlabel("Wavelengths (Angstrom)")
         plt.ylabel("Flux ")
         plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] +'/ori_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
-        plt.show()
+        if Q_V != 'Q':
+            plt.show()
         plt.close()
         
         idx = np.where ((wavelengths > x1) & (wavelengths < x2))
@@ -41,30 +42,30 @@ def import_data (filenames, x1, x2):
         plt.plot(wavelengths_window, fluxes_window, "b-")
         plt.xlabel("Wavelengths (Angstrom)")
         plt.ylabel("Flux ")
-        plt.show()
+        if Q_V != 'Q':
+            plt.show()
         plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] + '/window_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
         plt.close()
         
-        answer = input("Workig on file " +filename+ ": Do you like the window? y/n (y): ") 
-        while answer.lower() == "n": 
-            lowerbound, upperbound = user_input()
-            idx = np.where ((wavelengths > lowerbound) & (wavelengths < upperbound))
-            wavelengths_window = wavelengths[idx]
-            fluxes_window = fluxes[idx]
-            plt.plot(wavelengths_window, fluxes_window, "b-")
-            plt.xlabel("Wavelengths (Angstrom)")
-            plt.ylabel("Flux ")
-            plt.show()
-            plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] + '/window_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
-            plt.close()
-            answer = input("Workig on file " +filename+ ": Do you like the new window? y/n (y): ")
-        else:            
-            wavelengths_normalized = (wavelengths_window - np.mean(wavelengths_window))/np.std(wavelengths_window)
-            fluxes_normalized = (fluxes_window- np.mean(fluxes_window)/np.std(fluxes_window))
-            wavelengths_windows[filename] = wavelengths_window
-            fluxes_windows[filename] = fluxes_window
-            wavelengths_normalizeds[filename] = wavelengths_normalized
-            fluxes_normalizeds[filename] = fluxes_normalized  
+        if Q_V != 'Q':
+            answer = input("Workig on file " +filename+ ": Do you like the window? y/n (y): ") 
+            while answer.lower() == "n": 
+                lowerbound, upperbound = user_input()
+                idx = np.where ((wavelengths > lowerbound) & (wavelengths < upperbound))
+                wavelengths_window = wavelengths[idx]
+                fluxes_window = fluxes[idx]
+                plt.plot(wavelengths_window, fluxes_window, "b-")
+                plt.xlabel("Wavelengths (Angstrom)")
+                plt.ylabel("Flux ")
+                plt.show()
+                answer = input("Workig on file " +filename+ ": Do you like the new window? y/n (y): ")
+
+        wavelengths_normalized = (wavelengths_window - np.mean(wavelengths_window))/np.std(wavelengths_window)
+        fluxes_normalized = (fluxes_window- np.mean(fluxes_window)/np.std(fluxes_window))
+        wavelengths_windows[filename] = wavelengths_window
+        fluxes_windows[filename] = fluxes_window
+        wavelengths_normalizeds[filename] = wavelengths_normalized
+        fluxes_normalizeds[filename] = fluxes_normalized  
             
     return wavelengths_windows, fluxes_windows, wavelengths_normalizeds, fluxes_normalizeds
 
