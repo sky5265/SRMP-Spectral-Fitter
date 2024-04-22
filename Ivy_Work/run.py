@@ -6,6 +6,8 @@ import sys
 from plot import *
 sys.path.insert(1, '../Nahum_Fitting')
 from mcmc_fitting import *
+import warnings 
+warning.filterwarnings('ignore')
 
 def universe(Q_V = 'Q'):
 

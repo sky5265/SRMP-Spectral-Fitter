@@ -27,12 +27,12 @@ def plot_and_denormalize (mu_s, sigma_s, c_s, err_s, filenames, wavelengths_norm
         last_c_s = c_s[filename][-1]
         last_err_s = err_s[filename][-1]
         
-        #if Q_V != 'Q':
-        plt.plot(range(0, len(c_s[filename])), c_s[filename], color = 'grey')
-        plt.ylabel(r'mu', fontsize = 35)
-        plt.xlabel("Iterations", fontsize = 35)
-        plt.show()
-        plt.close()
+        if Q_V != 'Q':
+            plt.plot(range(0, len(c_s[filename])), c_s[filename], color = 'grey')
+            plt.ylabel(r'mu', fontsize = 35)
+            plt.xlabel("Iterations", fontsize = 35)
+            plt.show()
+            plt.close()
             
         x0 = np.linspace(-1.5,1.5,500)
         plt.plot(wavelengths_normalizeds[filename], fluxes_normalizeds[filename], color = "red",  label = filename)
@@ -93,7 +93,6 @@ def write_velocities(filenames, true_wavelength, real_mu_s_s, real_sigma_s_s, Q_
         real_velocities = (real_mu_s_s[filename]-true_wavelength)/true_wavelength * c_light
         
         velocity = np.median(real_velocities)
-        print(real_velocities)
         velocity_std = np.std(real_velocities) 
 
         velocity_s.append(velocity)
@@ -107,9 +106,7 @@ def write_velocities(filenames, true_wavelength, real_mu_s_s, real_sigma_s_s, Q_
     for file in filenames:
         file = file[:file.index('.txt')]
         filename.append(file)
-    
-    print(velocity_std_s)
-    
+        
     plt.scatter([float(i) for i in filename], velocity_s)
     plt.errorbar([float(i) for i in filename], velocity_s, velocity_std_s, ls='none')
     plt.xlabel("Time")

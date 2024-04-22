@@ -49,7 +49,7 @@ def fitting(W_new, F_new, nwalkers, loss_function, n_iterations, filenames, Q_V 
     for filename in filenames:
         initial_guesses=(create_initial_guesses(nwalkers))
         sampler = emcee.EnsembleSampler(nwalkers = nwalkers, ndim = 4, log_prob_fn = loss_function, kwargs = {"y_true":F_new[filename], "x": W_new[filename]})
-        sampler.run_mcmc(initial_guesses, n_iterations)
+        sampler.run_mcmc(initial_guesses, n_iterations, progress = True)
 
         samples=sampler.get_chain()
         
