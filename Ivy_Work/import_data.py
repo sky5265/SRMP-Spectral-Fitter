@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 import numpy as np
 import os
+
 matplotlib.rcParams['interactive'] == True
 
 def user_input():
@@ -25,26 +26,36 @@ def import_data (filenames, x1, x2, Q_V = 'Q'):
             os.mkdir('Results')
         if not os.path.isdir('Results/Spectrum_'+filename[:filename.index('.txt')]):
             os.mkdir('Results/Spectrum_'+filename[:filename.index('.txt')])
-            
-        plt.plot(wavelengths, fluxes, "b-")
-        plt.xlabel("Wavelengths (Angstrom)")
-        plt.ylabel("Flux ")
+        
+        
+        colors = get_colors(3, 'chill')
+        plt = get_pretty_plot()
+        idx = np.where ((wavelengths > x1) & (wavelengths < x2))
+        plt.plot(wavelengths, fluxes, "b-", linewidth = 3, color = colors[0], alpha = 0.4)
+        plt.plot(wavelengths[idx], fluxes[idx], "b-", linewidth = 5, color = colors[0], alpha = 1.0)
+        plt.xlabel(r'Wavelength ($\AA$)', fontsize = 30)
+        plt.ylabel(r"Flux", fontsize = 30)
+        plt.yticks([])
+        plt.title("Original Spectrum ("+filename[:filename.index('.txt')]+")", fontsize = 40, weight = 'bold', pad=20)
+        plt.vlines([x1, x2], min(fluxes), max(fluxes), linewidth = 2, color = colors[1])
         plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] +'/ori_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
         if Q_V != 'Q':
             plt.show()
         plt.close()
         
-        idx = np.where ((wavelengths > x1) & (wavelengths < x2))
 
         wavelengths_window = wavelengths[idx]
         fluxes_window = fluxes[idx]
         
-        plt.plot(wavelengths_window, fluxes_window, "b-")
-        plt.xlabel("Wavelengths (Angstrom)")
-        plt.ylabel("Flux ")
+        plt = get_pretty_plot()
+        plt.plot(wavelengths_window, fluxes_window, "b-", linewidth = 3, color = colors[0])
+        plt.xlabel(r'Wavelength ($\AA$)', fontsize = 30)
+        plt.ylabel("Flux", fontsize = 30)
+        plt.yticks([])
+        plt.title("Window ("+filename[:filename.index('.txt')]+")", fontsize = 40, weight = 'bold', pad=20)
+        plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] + '/window_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
         if Q_V != 'Q':
             plt.show()
-        plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] + '/window_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
         plt.close()
         
         if Q_V != 'Q':
