@@ -28,7 +28,7 @@ def universe(Q_V = 'Q'):
     wavelengths_windows, fluxes_windows, wavelengths_normalizeds, fluxes_normalizeds = import_data(filenames, lowerbound, upperbound, Q_V = Q_V)
 
     nwalkers = 20
-    if Q_V != 'Q':
+    if Q_V.upper() != 'Q':
         answer = input("How many walkers do you want (20) ? ")
         if is_integer(answer): 
             nwalkers = int(answer)
@@ -39,7 +39,7 @@ def universe(Q_V = 'Q'):
 
 
     n_iterations =5000
-    if Q_V != 'Q':
+    if Q_V.upper() != 'Q':
         answer = input("How many interations do you want (5000) ? ")
         if is_integer(answer): 
             n_iterations = int(answer)
@@ -59,7 +59,7 @@ def universe(Q_V = 'Q'):
     write_velocities(filenames, true_wavelength, real_mu_s_s, real_sigma_s_s, Q_V = Q_V)
 
     rerun = 'n'
-    if Q_V != 'Q':
+    if Q_V.upper() != 'Q':
         rerun = input("Should I rerun the fit? (n)")
     return rerun
 

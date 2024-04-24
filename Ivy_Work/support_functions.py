@@ -80,8 +80,8 @@ def sKy_color_list(i, scheme = None):
     return tor
 
 def get_pretty_plot():
-    W = 15
-    H = 10
+    W = 12
+    H = 8
     fig, ax = plt.subplots(figsize=(W, H))
 
     ax.xaxis.set_minor_locator(AutoMinorLocator())
@@ -114,3 +114,28 @@ def get_pretty_plot():
     
 
     return plt
+
+def make_axis(ax):
+  ax.xaxis.set_minor_locator(AutoMinorLocator())
+  ax.yaxis.set_minor_locator(AutoMinorLocator())
+
+  ax.tick_params(
+    which='major',
+    bottom='on',
+    top='on',
+    left='on',
+    right='on',
+    direction='in',
+    labelsize = 25,
+    length=25)
+  ax.tick_params(
+      which='minor',
+      bottom='on',
+      top='on',
+      left='on',
+      right='on',
+      direction='in',
+      labelsize = 15,
+      length=10)
+
+  return ax

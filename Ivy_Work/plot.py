@@ -27,12 +27,11 @@ def plot_and_denormalize (mu_s, sigma_s, c_s, err_s, filenames, wavelengths_norm
         last_c_s = c_s[filename][-1]
         last_err_s = err_s[filename][-1]
 
-        colors = get_colors(2, 'chill')
         plt = get_pretty_plot()
         x0 = np.linspace(-1.5,1.5,500)
-        plt.plot(wavelengths_normalizeds[filename], fluxes_normalizeds[filename], color = color[0],  label = filename)
+        plt.plot(wavelengths_normalizeds[filename], fluxes_normalizeds[filename], color = sKy_colors['light blue'],  label = filename)
         plt.yticks([])
-        plt.title('Normalized fit of '+ filename[:filename.index('.txt')], fontsize = 40, weight = 'bold', pad=20)
+        plt.title('Normalized fit of '+ filename[:filename.index('.txt')], fontsize = 35, weight = 'bold', pad=20)
         labels_added = []
         for walker in range(len(last_mu_s)):
             mu = last_mu_s[walker]
@@ -40,14 +39,12 @@ def plot_and_denormalize (mu_s, sigma_s, c_s, err_s, filenames, wavelengths_norm
             c = last_c_s[walker]
             y_fitted = normal_dist(x = x0, mu = mu, sigma= sigma, c = c)
             if 'Fitted' not in labels_added:
-                plt.plot(x0, y_fitted, color = 'green', linewidth = 0.1, label = 'Fitted')
+                plt.plot(x0, y_fitted, color = sKy_colors['dark mute red'], linewidth = 0.1, label = 'Fitted')
                 labels_added.append("Fitted")
             else:
-                plt.plot(x0, y_fitted, color = 'green', linewidth = 2)
-        plt.xlabel('x', fontsize = 20)
-        plt.ylabel(r'y', fontsize = 20)
-        plt.legend(fontsize = 10)
-        if Q_V != 'Q':
+                plt.plot(x0, y_fitted, color = sKy_colors['dark mute red'], linewidth = 2)
+        plt.legend(fontsize = 15)
+        if Q_V.upper() != 'Q':
             plt.show()
         plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] + '/' + 'Normalized_fit_'+ filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
         plt.close()
@@ -56,10 +53,11 @@ def plot_and_denormalize (mu_s, sigma_s, c_s, err_s, filenames, wavelengths_norm
         real_sigma_s_s[filename] = last_sigma_s * np.std(wavelengths_windows[filename]) 
         real_c_s_s[filename] = last_c_s* np.std(fluxes_windows[filename]) + np.mean(fluxes_windows[filename])
         
+        plt = get_pretty_plot()
         x1 = np.linspace(lowerbound,upperbound,500)
-        plt.plot(wavelengths_windows[filename], fluxes_windows[filename], color = color[1], label = filename)
+        plt.plot(wavelengths_windows[filename], fluxes_windows[filename], color = sKy_colors['light blue'], label = filename, )
         plt.yticks([])
-        plt.title('Fitted line on original spectrum '+ filename[:filename.index('.txt')], fontsize = 40, weight = 'bold', pad=20)
+        plt.title('Denormalized fit '+ filename[:filename.index('.txt')], fontsize = 35, weight = 'bold', pad=20)
         labels_added = []
         for walker in range(len(last_mu_s)):
             mu = last_mu_s[walker]
@@ -67,15 +65,15 @@ def plot_and_denormalize (mu_s, sigma_s, c_s, err_s, filenames, wavelengths_norm
             c = last_c_s[walker]
             y_fitted = normal_dist(x = x0, mu = mu, sigma= sigma, c = c) * np.std(fluxes_windows[filename]) + np.mean(fluxes_windows[filename])
             if 'Fitted' not in labels_added:
-                plt.plot(x1, y_fitted, color = 'green', linewidth = 0.1, label = 'Fitted')
+                plt.plot(x1, y_fitted, color = sKy_colors['dark mute red'], linewidth = 0.1, label = 'Fitted')
                 labels_added.append("Fitted")
             else:
-                plt.plot(x1, y_fitted, color = 'green', linewidth = 2)
-        plt.xlabel('x', fontsize = 20)
-        plt.ylabel(r'y', fontsize = 20)
+                plt.plot(x1, y_fitted, color = sKy_colors['dark mute red'], linewidth = 2)
+        plt.xlabel(r'Wavelength ($\AA$)', fontsize = 20)
+        plt.ylabel('Flux', fontsize = 20)
         plt.yticks([])
-        plt.legend(fontsize = 10)
-        if Q_V != 'Q':
+        plt.legend(fontsize = 15)
+        if Q_V.upper() != 'Q':
             plt.show()
         plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] + '/' + 'fit_'+ filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
         plt.close()
@@ -106,11 +104,15 @@ def write_velocities(filenames, true_wavelength, real_mu_s_s, real_sigma_s_s, Q_
         file = file[:file.index('.txt')]
         filename.append(file)
         
-    plt.scatter([float(i) for i in filename], velocity_s)
+    colors = get_colors(2, 'chill')
+    plt = get_pretty_plot()
+    plt.yticks([])
+    plt.title('Velocity of '+ str(true_wavelength) + '$\AA$ absorbtion line over time' , fontsize = 35, weight = 'bold', pad=30)
+    plt.scatter([float(i) for i in filename], velocity_s, color = colors[0])
     plt.errorbar([float(i) for i in filename], velocity_s, velocity_std_s, ls='none')
-    plt.xlabel("Time")
-    plt.ylabel("Velocity")
-    if Q_V != 'Q':
+    plt.xlabel("Time", fontsize = 25)
+    plt.ylabel("Velocity (km/s)", fontsize = 25)
+    if Q_V.upper() != 'Q':
             plt.show()
     plt.savefig('Results' + '/Velocity_Over_Time' + '.pdf', bbox_inches='tight')
     plt.close()

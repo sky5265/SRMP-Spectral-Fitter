@@ -27,19 +27,34 @@ def import_data (filenames, x1, x2, Q_V = 'Q'):
         if not os.path.isdir('Results/Spectrum_'+filename[:filename.index('.txt')]):
             os.mkdir('Results/Spectrum_'+filename[:filename.index('.txt')])
         
+        W = 12
+        H = 8
+
+        fig, ax = plt.subplots(1, 2, figsize = (W, H))
+
+        ax1 = ax[0]
+        ax2 = ax[1]
+
+        ax1 = make_axis(ax1)
+        ax2 = make_axis(ax2)
+        fig.suptitle("Spectrum ("+filename[:filename.index('.txt')]+")", fontsize = 35, y = 1.05)
+        ax1.set_title("Original Spectrum", fontsize = 25)
+        ax2.set_title("Window", fontsize = 25)
+        
+        ax1.plot(x, (x-3)**2, linewidth = 3)
+        ax2.plot(x, np.sin(x), linewidth = 3)
         
         colors = get_colors(3, 'chill')
-        plt = get_pretty_plot()
         idx = np.where ((wavelengths > x1) & (wavelengths < x2))
-        plt.plot(wavelengths, fluxes, "b-", linewidth = 3, color = colors[0], alpha = 0.4)
-        plt.plot(wavelengths[idx], fluxes[idx], "b-", linewidth = 5, color = colors[0], alpha = 1.0)
+        ax1.plot(wavelengths, fluxes, "b-", linewidth = 2, color = colors[0], alpha = 0.4)
+        ax1.plot(wavelengths[idx], fluxes[idx], "b-", linewidth = 4, color = colors[0], alpha = 1.0)
         plt.xlabel(r'Wavelength ($\AA$)', fontsize = 30)
         plt.ylabel(r"Flux", fontsize = 30)
         plt.yticks([])
         plt.title("Original Spectrum ("+filename[:filename.index('.txt')]+")", fontsize = 40, weight = 'bold', pad=20)
         plt.vlines([x1, x2], min(fluxes), max(fluxes), linewidth = 2, color = colors[1])
         plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] +'/ori_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
-        if Q_V != 'Q':
+        if Q_V.upper() != 'Q':
             plt.show()
         plt.close()
         
@@ -54,11 +69,11 @@ def import_data (filenames, x1, x2, Q_V = 'Q'):
         plt.yticks([])
         plt.title("Window ("+filename[:filename.index('.txt')]+")", fontsize = 40, weight = 'bold', pad=20)
         plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] + '/window_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
-        if Q_V != 'Q':
+        if Q_V.upper() != 'Q':
             plt.show()
         plt.close()
         
-        if Q_V != 'Q':
+        if Q_V.upper() != 'Q':
             answer = input("Workig on file " +filename+ ": Do you like the window? y/n (y): ") 
             while answer.lower() == "n": 
                 lowerbound, upperbound = user_input()
