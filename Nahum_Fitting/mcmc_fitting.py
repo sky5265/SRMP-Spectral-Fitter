@@ -66,6 +66,7 @@ def fitting(W_new, F_new, nwalkers, loss_function, n_iterations, filenames, Q_V 
         flat_samples = sampler.get_chain(discard=100, thin=15, flat=True)
         labels = ['mu', 'sigma', 'c', 'err']
         fig = corner.corner(flat_samples, labels=labels);
+        plt.title('Corner plot of normalized spectrum '+filename[:filename.index('.txt')], fontsize = 40, weight = 'bold', pad=20)
         if Q_V != 'Q':
             plt.show()
         plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] + '/' + 'Normalized_corner_'+ filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')

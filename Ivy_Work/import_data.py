@@ -65,9 +65,11 @@ def import_data (filenames, x1, x2, Q_V = 'Q'):
                 idx = np.where ((wavelengths > lowerbound) & (wavelengths < upperbound))
                 wavelengths_window = wavelengths[idx]
                 fluxes_window = fluxes[idx]
-                plt.plot(wavelengths_window, fluxes_window, "b-")
-                plt.xlabel("Wavelengths (Angstrom)")
-                plt.ylabel("Flux ")
+                plt.plot(wavelengths_window, fluxes_window, "b-", linewidth = 3, color = colors[0])
+                plt.xlabel(r'Wavelength ($\AA$)', fontsize = 30)
+                plt.ylabel("Flux", fontsize = 30)
+                plt.yticks([])
+                plt.title("Window ("+filename[:filename.index('.txt')]+")", fontsize = 40, weight = 'bold', pad=20)
                 plt.show()
                 answer = input("Workig on file " +filename+ ": Do you like the new window? y/n (y): ")
 

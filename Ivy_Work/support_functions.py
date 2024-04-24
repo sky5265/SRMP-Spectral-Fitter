@@ -102,12 +102,12 @@ def get_pretty_plot():
         right='on',
         direction='in',
         length=10)
-    matplotlib.rcParams["font.family"] = 'serif'
+    #matplotlib.rcParams["font.family"] = 'serif'
     #matplotlib.rc('axes', unicode_minus=False)
-    matplotlib.rcParams['mathtext.fontset'] = 'custom'
-    matplotlib.rcParams['mathtext.rm'] = 'serif'
-    matplotlib.rcParams['mathtext.it'] = 'serif'
-    matplotlib.rcParams['mathtext.bf'] = 'serif'
+    #matplotlib.rcParams['mathtext.fontset'] = 'custom'
+    #matplotlib.rcParams['mathtext.rm'] = 'serif'
+    #matplotlib.rcParams['mathtext.it'] = 'serif'
+    #matplotlib.rcParams['mathtext.bf'] = 'serif'
     plt.xticks(fontsize=1.5*W)
     plt.yticks(fontsize=1.5*W)
     weight = 'normal'

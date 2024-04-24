@@ -26,16 +26,13 @@ def plot_and_denormalize (mu_s, sigma_s, c_s, err_s, filenames, wavelengths_norm
         last_sigma_s = sigma_s[filename][-1]
         last_c_s = c_s[filename][-1]
         last_err_s = err_s[filename][-1]
-        
-        if Q_V != 'Q':
-            plt.plot(range(0, len(c_s[filename])), c_s[filename], color = 'grey')
-            plt.ylabel(r'mu', fontsize = 35)
-            plt.xlabel("Iterations", fontsize = 35)
-            plt.show()
-            plt.close()
-            
+
+        colors = get_colors(2, 'chill')
+        plt = get_pretty_plot()
         x0 = np.linspace(-1.5,1.5,500)
-        plt.plot(wavelengths_normalizeds[filename], fluxes_normalizeds[filename], color = "red",  label = filename)
+        plt.plot(wavelengths_normalizeds[filename], fluxes_normalizeds[filename], color = color[0],  label = filename)
+        plt.yticks([])
+        plt.title('Normalized fit of '+ filename[:filename.index('.txt')], fontsize = 40, weight = 'bold', pad=20)
         labels_added = []
         for walker in range(len(last_mu_s)):
             mu = last_mu_s[walker]
@@ -60,7 +57,9 @@ def plot_and_denormalize (mu_s, sigma_s, c_s, err_s, filenames, wavelengths_norm
         real_c_s_s[filename] = last_c_s* np.std(fluxes_windows[filename]) + np.mean(fluxes_windows[filename])
         
         x1 = np.linspace(lowerbound,upperbound,500)
-        plt.plot(wavelengths_windows[filename], fluxes_windows[filename], color = "red", label = filename)
+        plt.plot(wavelengths_windows[filename], fluxes_windows[filename], color = color[1], label = filename)
+        plt.yticks([])
+        plt.title('Fitted line on original spectrum '+ filename[:filename.index('.txt')], fontsize = 40, weight = 'bold', pad=20)
         labels_added = []
         for walker in range(len(last_mu_s)):
             mu = last_mu_s[walker]

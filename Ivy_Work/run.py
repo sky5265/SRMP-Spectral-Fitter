@@ -2,7 +2,6 @@
 from support_functions import *
 from import_data import *
 from tqdm import tqdm
-import sys
 from plot import *
 sys.path.insert(1, '../Nahum_Fitting')
 from mcmc_fitting import *
