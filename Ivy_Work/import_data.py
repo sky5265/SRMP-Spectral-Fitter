@@ -27,7 +27,7 @@ def import_data (filenames, x1, x2, Q_V = 'Q'):
         if not os.path.isdir('Results/Spectrum_'+filename[:filename.index('.txt')]):
             os.mkdir('Results/Spectrum_'+filename[:filename.index('.txt')])
         
-        W = 12
+        W = 15
         H = 8
 
         fig, ax = plt.subplots(1, 2, figsize = (W, H))
@@ -37,43 +37,25 @@ def import_data (filenames, x1, x2, Q_V = 'Q'):
 
         ax1 = make_axis(ax1)
         ax2 = make_axis(ax2)
-        fig.suptitle("Spectrum ("+filename[:filename.index('.txt')]+")", fontsize = 35, y = 1.05)
-        ax1.set_title("Original Spectrum", fontsize = 25)
-        ax2.set_title("Window", fontsize = 25)
-        
-        ax1.plot(x, (x-3)**2, linewidth = 3)
-        ax2.plot(x, np.sin(x), linewidth = 3)
+        fig.suptitle("Spectrum ("+filename[:filename.index('.txt')]+")", fontsize = 35, weight = 'bold')
+        ax1.set_title("Original Spectrum", fontsize = 20, pad =10)
+        ax2.set_title("Window", fontsize = 20, pad =10)
+        fig.supxlabel(r'Wavelength ($\AA$)', fontsize = 25)
+        fig.supylabel(r"Flux", fontsize = 25)
         
         colors = get_colors(3, 'chill')
         idx = np.where ((wavelengths > x1) & (wavelengths < x2))
+        wavelengths_window = wavelengths[idx]
+        fluxes_window = fluxes[idx]      
+       
         ax1.plot(wavelengths, fluxes, "b-", linewidth = 2, color = colors[0], alpha = 0.4)
         ax1.plot(wavelengths[idx], fluxes[idx], "b-", linewidth = 4, color = colors[0], alpha = 1.0)
-        plt.xlabel(r'Wavelength ($\AA$)', fontsize = 30)
-        plt.ylabel(r"Flux", fontsize = 30)
-        plt.yticks([])
-        plt.title("Original Spectrum ("+filename[:filename.index('.txt')]+")", fontsize = 40, weight = 'bold', pad=20)
-        plt.vlines([x1, x2], min(fluxes), max(fluxes), linewidth = 2, color = colors[1])
-        plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] +'/ori_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
+        ax1.vlines([x1, x2], min(fluxes), max(fluxes), linewidth = 2, color = colors[1])                     
+      
+        ax2.plot(wavelengths_window, fluxes_window, "b-", linewidth = 3, color = colors[0])
         if Q_V.upper() != 'Q':
             plt.show()
-        plt.close()
-        
-
-        wavelengths_window = wavelengths[idx]
-        fluxes_window = fluxes[idx]
-        
-        plt = get_pretty_plot()
-        plt.plot(wavelengths_window, fluxes_window, "b-", linewidth = 3, color = colors[0])
-        plt.xlabel(r'Wavelength ($\AA$)', fontsize = 30)
-        plt.ylabel("Flux", fontsize = 30)
-        plt.yticks([])
-        plt.title("Window ("+filename[:filename.index('.txt')]+")", fontsize = 40, weight = 'bold', pad=20)
-        plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] + '/window_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
-        if Q_V.upper() != 'Q':
-            plt.show()
-        plt.close()
-        
-        if Q_V.upper() != 'Q':
+            plt.close()
             answer = input("Workig on file " +filename+ ": Do you like the window? y/n (y): ") 
             while answer.lower() == "n": 
                 lowerbound, upperbound = user_input()
@@ -87,7 +69,9 @@ def import_data (filenames, x1, x2, Q_V = 'Q'):
                 plt.title("Window ("+filename[:filename.index('.txt')]+")", fontsize = 40, weight = 'bold', pad=20)
                 plt.show()
                 answer = input("Workig on file " +filename+ ": Do you like the new window? y/n (y): ")
-
+        plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] +'/Spectrum_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
+        plt.close()
+        
         wavelengths_normalized = (wavelengths_window - np.mean(wavelengths_window))/np.std(wavelengths_window)
         fluxes_normalized = (fluxes_window- np.mean(fluxes_window))/np.std(fluxes_window)
         wavelengths_windows[filename] = wavelengths_window
