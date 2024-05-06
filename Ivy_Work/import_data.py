@@ -31,7 +31,7 @@ def import_data (filenames, x1, x2, Q_V = 'Q'):
         H = 8
 
         fig, ax = plt.subplots(1, 2, figsize = (W, H))
-
+               
         ax1 = ax[0]
         ax2 = ax[1]
 
@@ -51,12 +51,14 @@ def import_data (filenames, x1, x2, Q_V = 'Q'):
         ax1.plot(wavelengths, fluxes, "b-", linewidth = 2, color = colors[0], alpha = 0.4)
         ax1.plot(wavelengths[idx], fluxes[idx], "b-", linewidth = 4, color = colors[0], alpha = 1.0)
         ax1.vlines([x1, x2], min(fluxes), max(fluxes), linewidth = 2, color = colors[1])                     
-      
         ax2.plot(wavelengths_window, fluxes_window, "b-", linewidth = 3, color = colors[0])
+        plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] +'/Spectrum_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
+        
         if Q_V.upper() != 'Q':
-            plt.show()
-            plt.close()
-            answer = input("Workig on file " +filename+ ": Do you like the window? y/n (y): ") 
+            plt.plot(block=False)
+            plt.pause(0.1)
+            #plt.close()
+            answer = input("Working on file " +filename+ ": Do you like the window? y/n (y): ") 
             while answer.lower() == "n": 
                 lowerbound, upperbound = user_input()
                 idx = np.where ((wavelengths > lowerbound) & (wavelengths < upperbound))
@@ -67,10 +69,10 @@ def import_data (filenames, x1, x2, Q_V = 'Q'):
                 plt.ylabel("Flux", fontsize = 30)
                 plt.yticks([])
                 plt.title("Window ("+filename[:filename.index('.txt')]+")", fontsize = 40, weight = 'bold', pad=20)
+                plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] +'/Spectrum_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
                 plt.show()
-                answer = input("Workig on file " +filename+ ": Do you like the new window? y/n (y): ")
-        plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] +'/Spectrum_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
-        plt.close()
+                answer = input("Working on file " +filename+ ": Do you like the new window? y/n (y): ")
+        plt.show()
         
         wavelengths_normalized = (wavelengths_window - np.mean(wavelengths_window))/np.std(wavelengths_window)
         fluxes_normalized = (fluxes_window- np.mean(fluxes_window))/np.std(fluxes_window)

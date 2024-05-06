@@ -106,7 +106,6 @@ def write_velocities(filenames, true_wavelength, real_mu_s_s, real_sigma_s_s, Q_
         
     colors = get_colors(2, 'chill')
     plt = get_pretty_plot()
-    plt.yticks([])
     plt.title('Velocity of '+ str(true_wavelength) + '$\AA$ absorbtion line over time' , fontsize = 35, weight = 'bold', pad=30)
     plt.scatter([float(i) for i in filename], velocity_s, color = colors[0])
     plt.errorbar([float(i) for i in filename], velocity_s, velocity_std_s, ls='none')
