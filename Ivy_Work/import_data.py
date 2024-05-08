@@ -64,16 +64,23 @@ def import_data (filenames, x1, x2, Q_V = 'Q'):
                 idx = np.where ((wavelengths > lowerbound) & (wavelengths < upperbound))
                 wavelengths_window = wavelengths[idx]
                 fluxes_window = fluxes[idx]
+                
                 ax2.cla()
-                ax1.cla()
                 ax2.plot(wavelengths_window, fluxes_window, "b-", linewidth = 3, color = colors[0])
                 
+                ax1.cla()
                 ax1.plot(wavelengths, fluxes, "b-", linewidth = 2, color = colors[0], alpha = 0.4)
                 ax1.plot(wavelengths[idx], fluxes[idx], "b-", linewidth = 4, color = colors[0], alpha = 1.0)
                 ax1.vlines([x1, x2], min(fluxes), max(fluxes), linewidth = 2, color = colors[1])    
                 ax1.vlines([lowerbound, upperbound], min(fluxes), max(fluxes), linewidth = 2, color = colors[2])
                 
                 plt.pause(1)
+                
+                ax1.cla()
+                ax1.plot(wavelengths, fluxes, "b-", linewidth = 2, color = colors[0], alpha = 0.4)
+                ax1.plot(wavelengths[idx], fluxes[idx], "b-", linewidth = 4, color = colors[0], alpha = 1.0)
+                ax1.vlines([lowerbound, upperbound], min(fluxes), max(fluxes), linewidth = 2, color = colors[2])
+                
                 plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] +'/Spectrum_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
                 answer = input("Working on file " +filename+ ": Do you like the new window? y/n (y): ")
         plt.close()
