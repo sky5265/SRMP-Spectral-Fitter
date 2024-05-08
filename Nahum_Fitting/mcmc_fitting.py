@@ -14,8 +14,8 @@ def loss_function(inp, x, y_true):
     if err < 0 or err>1 or c < 0 or mu < -10 or mu > 10 or sigma > 10 or sigma < 0:
         return -np.inf
 
-
     y_fitted=normal_dist(x = x, mu=mu, sigma=sigma, c=c)
+    
     return np.sum(-1.0*(y_true-y_fitted)**2.0)/err-np.exp(err)
   
   
