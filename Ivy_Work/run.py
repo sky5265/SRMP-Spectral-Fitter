@@ -10,7 +10,7 @@ warnings.filterwarnings('ignore')
 
 def universe(Q_V = 'Q'):
 
-    print("please put all your data files in a folder called 'data'")
+    #print("please put all your data files in a folder called 'data'")
 
     filenames = []
     for file in os.listdir('data'):
@@ -63,10 +63,16 @@ def universe(Q_V = 'Q'):
         rerun = input("Should I rerun the fit? (n)")
     return rerun
 
-
-Q_V = input("Quiet or Verbose? (Q)")
-if len(Q_V) == 0:
-    Q_V = 'Q'
+parser = argparse.ArgumentParser()
+parser.add_argument("-v", "--verbose", action="count", default=0)
+parser.add_argument("-d", "--directory", action="count", default=0)
+args = parser.parse_args()
+if args.verbose == 1
+    Q_V = 'V'
+    
+#Q_V = input("Quiet or Verbose? (Q)")
+#f len(Q_V) == 0:
+#    Q_V = 'Q'
 
 rerun = 'y'
 while rerun != 'n' and len(rerun) > 0:

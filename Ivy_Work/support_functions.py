@@ -1,6 +1,7 @@
 import numpy as np
 import os
 import sys
+import argparse
 import emcee
 import corner
 import matplotlib.pyplot as plt
@@ -139,3 +140,4 @@ def make_axis(ax):
       length=10)
 
   return ax
+  
