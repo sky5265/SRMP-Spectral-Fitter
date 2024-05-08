@@ -56,7 +56,7 @@ def import_data (filenames, x1, x2, Q_V = 'Q'):
         
         if Q_V.upper() != 'Q':
             plt.show(block=False)
-            plt.pause(0.1)
+            plt.pause(1)
             answer = input("Working on file " +filename+ ": Do you like the window? y/n (y): ") 
             while answer.lower() == "n": 
                 lowerbound, upperbound = user_input()
@@ -64,9 +64,8 @@ def import_data (filenames, x1, x2, Q_V = 'Q'):
                 wavelengths_window = wavelengths[idx]
                 fluxes_window = fluxes[idx]
                 ax2.plot(wavelengths_window, fluxes_window, "b-", linewidth = 3, color = colors[0])
-                #plt.yticks([])
+                plt.pause(1)
                 plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] +'/Spectrum_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
-                plt.show()
                 answer = input("Working on file " +filename+ ": Do you like the new window? y/n (y): ")
         plt.show()
         
