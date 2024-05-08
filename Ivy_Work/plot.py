@@ -14,17 +14,19 @@ def is_integer(n):
         return False
 
         
-def plot_and_denormalize (mu_s, sigma_s, c_s, err_s, filenames, wavelengths_normalizeds, fluxes_normalizeds, wavelengths_windows, fluxes_windows, lowerbound, upperbound, Q_V = 'Q'):
+def plot_and_denormalize (mu_s, sigma_s, c_s, D_s, err_s, filenames, wavelengths_normalizeds, fluxes_normalizeds, wavelengths_windows, fluxes_windows, lowerbound, upperbound, Q_V = 'Q'):
 
     real_mu_s_s = {}
     real_sigma_s_s = {}
     real_c_s_s ={}
+    real_D_s_s ={}
     
     for filename in filenames:
 
         last_mu_s = mu_s[filename][-1,:]
         last_sigma_s = sigma_s[filename][-1]
         last_c_s = c_s[filename][-1]
+        last_D_s = D_s[filename][-1]
         last_err_s = err_s[filename][-1]
 
         plt = get_pretty_plot()
@@ -37,7 +39,8 @@ def plot_and_denormalize (mu_s, sigma_s, c_s, err_s, filenames, wavelengths_norm
             mu = last_mu_s[walker]
             sigma = last_sigma_s[walker]
             c = last_c_s[walker]
-            y_fitted = normal_dist(x = x0, mu = mu, sigma= sigma, c = c)
+            D = last_D_s[walker]
+            y_fitted = normal_dist(x = x0, mu = mu, sigma= sigma, c = c, D=D)
             if 'Fitted' not in labels_added:
                 plt.plot(x0, y_fitted, color = sKy_colors['dark mute red'], linewidth = 0.1, label = 'Fitted')
                 labels_added.append("Fitted")
@@ -52,6 +55,7 @@ def plot_and_denormalize (mu_s, sigma_s, c_s, err_s, filenames, wavelengths_norm
         real_mu_s_s[filename] = last_mu_s * np.std(wavelengths_windows[filename]) + np.mean(wavelengths_windows[filename])
         real_sigma_s_s[filename] = last_sigma_s * np.std(wavelengths_windows[filename]) 
         real_c_s_s[filename] = last_c_s* np.std(fluxes_windows[filename]) + np.mean(fluxes_windows[filename])
+        real_D_s_s[filename] = last_D_s* np.std(fluxes_windows[filename])
         
         plt = get_pretty_plot()
         x1 = np.linspace(lowerbound,upperbound,500)
@@ -63,7 +67,8 @@ def plot_and_denormalize (mu_s, sigma_s, c_s, err_s, filenames, wavelengths_norm
             mu = last_mu_s[walker]
             sigma = last_sigma_s[walker]
             c = last_c_s[walker]
-            y_fitted = normal_dist(x = x0, mu = mu, sigma= sigma, c = c) * np.std(fluxes_windows[filename]) + np.mean(fluxes_windows[filename])
+            D = last_D_s[walker]
+            y_fitted = normal_dist(x = x0, mu = mu, sigma= sigma, c = c, D = D) * np.std(fluxes_windows[filename]) + np.mean(fluxes_windows[filename])
             if 'Fitted' not in labels_added:
                 plt.plot(x1, y_fitted, color = sKy_colors['dark mute red'], linewidth = 0.1, label = 'Fitted')
                 labels_added.append("Fitted")

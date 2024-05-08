@@ -49,11 +49,11 @@ def universe(Q_V = 'Q'):
                 answer2 = input("The current number of iterations is " + str(n_iterations) + "\nPress return to confirm: ")
         
     #finding fitted normalized values for fitted function
-    mu_s, sigma_s, c_s, err_s = fitting(wavelengths_normalizeds, fluxes_normalizeds, nwalkers, loss_function, n_iterations, filenames, Q_V = Q_V)
+    mu_s, sigma_s, c_s, d_s, err_s = fitting(wavelengths_normalizeds, fluxes_normalizeds, nwalkers, loss_function, n_iterations, filenames, Q_V = Q_V)
 
 
     #getting fitted parameters in denormalized (physical) units, and plot fitted function over real spectrum
-    real_mu_s_s, real_sigma_s_s, real_c_s_s = plot_and_denormalize(mu_s, sigma_s, c_s, err_s, filenames, wavelengths_normalizeds, fluxes_normalizeds, wavelengths_windows, fluxes_windows, lowerbound, upperbound, Q_V = Q_V)
+    real_mu_s_s, real_sigma_s_s, real_c_s_s = plot_and_denormalize(mu_s, sigma_s, c_s, d_s, err_s, filenames, wavelengths_normalizeds, fluxes_normalizeds, wavelengths_windows, fluxes_windows, lowerbound, upperbound, Q_V = Q_V)
 
 
     write_velocities(filenames, true_wavelength, real_mu_s_s, real_sigma_s_s, Q_V = Q_V)
