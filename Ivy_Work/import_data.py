@@ -12,13 +12,13 @@ def user_input():
     upperbound = float(input("upperbound: "))
     return lowerbound, upperbound
     
-def import_data (filenames, x1, x2, Q_V = 'Q'):
+def import_data (filenames, x1, x2, Q_V = 'Q', data_dir = 'data'):
     wavelengths_windows = {}
     fluxes_windows = {}
     wavelengths_normalizeds = {}
     fluxes_normalizeds = {}
     for filename in filenames:
-        data_loaded = np.loadtxt('data/' + filename)
+        data_loaded = np.loadtxt(data_dir + "/" + filename)
         wavelengths = data_loaded[:,0]
         fluxes = data_loaded[:,1]
         

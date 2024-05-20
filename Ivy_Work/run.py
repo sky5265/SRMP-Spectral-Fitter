@@ -8,14 +8,20 @@ from mcmc_fitting import *
 import warnings 
 warnings.filterwarnings('ignore')
 
-def universe(Q_V = 'Q'):
+
+def universe(Q_V = 'Q', data_dir = 'data/', user_extension = ''):
 
     #print("please put all your data files in a folder called 'data'")
+    extensions = ['.txt', '.data', '.out']
+    if len(user_extension) > 0:
+        extensions.append(user_extension)
 
+    print("data_dir: "+str(data_dir))
     filenames = []
-    for file in os.listdir('data'):
-        if file.endswith('.txt'):
-            filenames.append(file)
+    for file in os.listdir(data_dir):
+        for extension in extensions:
+            if extension in str(file):
+                filenames.append(file)
 
     true_wavelength = 7775
     lowerbound = 7500
@@ -25,7 +31,7 @@ def universe(Q_V = 'Q'):
     lowerbound = float(input('what is the lowerbound?'))
     upperbound = float(input('what is the upperbound?'))
 
-    wavelengths_windows, fluxes_windows, wavelengths_normalizeds, fluxes_normalizeds = import_data(filenames, lowerbound, upperbound, Q_V = Q_V)
+    wavelengths_windows, fluxes_windows, wavelengths_normalizeds, fluxes_normalizeds = import_data(filenames, lowerbound, upperbound, Q_V = Q_V, data_dir = data_dir)
 
     nwalkers = 20
     if Q_V.upper() != 'Q':
@@ -65,17 +71,24 @@ def universe(Q_V = 'Q'):
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-v", "--verbose", action="count", default=0)
+parser.add_argument('-d', "--directory", dest='directory', default='data/', type=str,help='Directory that holds spectroscopy data')
+parser.add_argument('-e', "--extensions", dest='extensions', default='', type=str,help='File extension of spectroscopy provided')
+
 args = parser.parse_args()
+
+data_dir = args.directory
 if args.verbose == 1:
     Q_V = 'V'
-    
-#Q_V = input("Quiet or Verbose? (Q)")
-#f len(Q_V) == 0:
-Q_V = 'Q'
+else:
+    Q_V = 'Q'
+
+user_extension = ''
+if len(args.extensions)> 0 :
+    user_extension = args.extensions
 
 rerun = 'y'
 while rerun != 'n' and len(rerun) > 0:
-    rerun = universe(Q_V)
+    rerun = universe(Q_V = Q_V, data_dir = data_dir, user_extension = user_extension)
 
 
 
