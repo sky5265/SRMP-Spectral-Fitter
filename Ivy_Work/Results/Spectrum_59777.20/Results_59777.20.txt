@@ -1,16 +1,12 @@
-Rest frame mean is at 7656.613045510447
-Velocity is -4567.985382233551 km/s
+Rest frame mean is at nan
+Velocity is nan km/s
 Results of walkers:
-Real mu's: [7660.25674269 7654.39065961 7653.66808604 7650.42374083 7661.03156085
- 7656.29641255 7659.78456258 7655.37917839 7663.05472484 7656.92967847
- 7656.95083697 7660.39241523 7657.67197093 7654.80711563 7650.92888647
- 7647.9257606  7660.61698858 7654.57043375 7657.01847227 7656.2850462 ]
-Median of real mu's: 7656.613045510447
-Standard deviation of mu's: 3.7701377964906886
+Real mu's: [nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+ nan nan]
+Median of real mu's: nan
+Standard deviation of mu's: nan
 
-Real sigma's: [129.95514546 120.78692755 120.33278666 156.74710894 171.41419094
- 118.94796228 221.88374465 110.34961662 152.83685014 142.78193543
- 105.61295447 171.01215867 138.66587871 140.4870745  175.93617985
- 126.48551463 151.5037279  150.61636787 203.0789687  147.48436415]
-Median of real sigma's: 145.13314978581775
-Standard deviation of sigma's: 29.1488268938041
+Real sigma's: [nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+ nan nan]
+Median of real sigma's: nan
+Standard deviation of sigma's: nan
