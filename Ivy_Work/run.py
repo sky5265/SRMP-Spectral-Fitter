@@ -21,9 +21,9 @@ def universe(Q_V = 'Q'):
     lowerbound = 7500
     upperbound = 7860
 
-    #true_wavelength = float(input('what is the true wavelength?'))
-    #lowerbound = float(input('what is the lowerbound?'))
-    #upperbound = float(input('what is the upperbound?'))
+    true_wavelength = float(input('what is the true wavelength?'))
+    lowerbound = float(input('what is the lowerbound?'))
+    upperbound = float(input('what is the upperbound?'))
 
     wavelengths_windows, fluxes_windows, wavelengths_normalizeds, fluxes_normalizeds = import_data(filenames, lowerbound, upperbound, Q_V = Q_V)
 
@@ -65,7 +65,6 @@ def universe(Q_V = 'Q'):
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-v", "--verbose", action="count", default=0)
-parser.add_argument("-d", "--directory", action="count", default=0)
 args = parser.parse_args()
 if args.verbose == 1:
     Q_V = 'V'
