@@ -90,6 +90,9 @@ def write_velocities(filenames, true_wavelength, real_mu_s_s, real_sigma_s_s, Q_
     velocity_s = []
     velocity_std_s = []
 
+    output_dir = "Results_"+str(true_wavelength)+"/"
+    mkdir(output_dir)
+
     for filename in filenames:
         c_light = 3.0E5
         real_velocities = (real_mu_s_s[filename]-true_wavelength)/true_wavelength * c_light
@@ -108,6 +111,11 @@ def write_velocities(filenames, true_wavelength, real_mu_s_s, real_sigma_s_s, Q_
     for file in filenames:
         file = file[:file.index('.txt')]
         filename.append(file)
+
+    times = np.asarray([float(i) for i in filename])
+    tow = np.asarray([times, np.asarray(velocity_s), np.asarray(velocity_std_s)]).T
+    write_to_file(output_dir+"Velocities_"+str(true_wavelength)+".txt", '# Time mu mu_std\n')
+    write_to_file(output_dir+"Velocities_"+str(true_wavelength)+".txt", tow, append = True)
         
     colors = get_colors(2, 'chill')
     plt = get_pretty_plot()
@@ -118,6 +126,6 @@ def write_velocities(filenames, true_wavelength, real_mu_s_s, real_sigma_s_s, Q_
     plt.ylabel("Velocity (km/s)", fontsize = 25)
     if Q_V.upper() != 'Q':
             plt.show()
-    plt.savefig('Velocity of '+ str(true_wavelength) + '$\AA$ absorbtion line over time' + '.pdf', bbox_inches='tight')
+    plt.savefig('Vel_'+ str(true_wavelength) + '.pdf', bbox_inches='tight')
     plt.close()
   

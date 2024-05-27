@@ -52,7 +52,7 @@ def import_data (filenames, x1, x2, true_wavelength, Q_V = 'Q', data_dir = 'data
         ax1.plot(wavelengths[idx], fluxes[idx], "b-", linewidth = 4, color = colors[0], alpha = 1.0)
         ax1.vlines([x1, x2], min(fluxes), max(fluxes), linewidth = 2, color = colors[1])                     
         ax2.plot(wavelengths_window, fluxes_window, "b-", linewidth = 3, color = colors[0])
-        plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] +'/Spectrum_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
+        plt.savefig('Results_'+str(true_wavelength)+'/Spectrum_'+ filename[:filename.index('.txt')] +'/Spectrum_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
         
         
         if Q_V.upper() != 'Q':
@@ -81,7 +81,7 @@ def import_data (filenames, x1, x2, true_wavelength, Q_V = 'Q', data_dir = 'data
                 ax1.plot(wavelengths[idx], fluxes[idx], "b-", linewidth = 4, color = colors[0], alpha = 1.0)
                 ax1.vlines([lowerbound, upperbound], min(fluxes), max(fluxes), linewidth = 2, color = colors[2])
                 
-                plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] +'/Spectrum_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
+                plt.savefig('Results_'+str(true_wavelength)+'/Spectrum_'+ filename[:filename.index('.txt')] +'/Spectrum_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
                 answer = input("Working on file " +filename+ ": Do you like the new window? y/n (y): ")
         plt.close()
         
