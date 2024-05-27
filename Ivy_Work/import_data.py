@@ -12,7 +12,7 @@ def user_input():
     upperbound = float(input("upperbound: "))
     return lowerbound, upperbound
     
-def import_data (filenames, x1, x2, Q_V = 'Q', data_dir = 'data'):
+def import_data (filenames, x1, x2, true_wavelength, Q_V = 'Q', data_dir = 'data'):
     wavelengths_windows = {}
     fluxes_windows = {}
     wavelengths_normalizeds = {}
@@ -22,10 +22,10 @@ def import_data (filenames, x1, x2, Q_V = 'Q', data_dir = 'data'):
         wavelengths = data_loaded[:,0]
         fluxes = data_loaded[:,1]
         
-        if not os.path.isdir('Results'):
-            os.mkdir('Results')
-        if not os.path.isdir('Results/Spectrum_'+filename[:filename.index('.txt')]):
-            os.mkdir('Results/Spectrum_'+filename[:filename.index('.txt')])
+        if not os.path.isdir('Results_'+str(true_wavelength) ):
+            os.mkdir('Results_'+str(true_wavelength))
+        if not os.path.isdir('Results_'+str(true_wavelength)+'/Spectrum_'+filename[:filename.index('.txt')]):
+            os.mkdir('Results_'+str(true_wavelength)+'/Spectrum_'+filename[:filename.index('.txt')])
         
         W = 15
         H = 8

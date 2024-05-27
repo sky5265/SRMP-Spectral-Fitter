@@ -100,7 +100,7 @@ def write_velocities(filenames, true_wavelength, real_mu_s_s, real_sigma_s_s, Q_
         velocity_s.append(velocity)
         velocity_std_s.append(velocity_std)
         out = open('Results/Spectrum_'+ filename[:filename.index('.txt')] +'/Results_' + filename[:filename.index('.txt')] + '.txt', 'w')
-        out.write('Rest frame mean is at ' + str(np.median(real_mu_s_s[filename])) + '\nVelocity is '+ str(velocity) + ' km/s' + '\n' + 
+        out.write('Rest frame mean (observed wavelength) is at ' + str(np.median(real_mu_s_s[filename])) + '\nVelocity is '+ str(velocity) + ' km/s' + '\n' + 
         'Results of walkers:'+'\n'+ "Real mu's: " + str(real_mu_s_s[filename]) +'\n' + "Median of real mu's: " + str(np.median(real_mu_s_s[filename])) + "\nStandard deviation of mu's: " + str(np.std(real_mu_s_s[filename])) + '\n\n'
         "Real sigma's: " + str(real_sigma_s_s[filename]) + "\nMedian of real sigma's: " + str(np.median(real_sigma_s_s[filename])) + "\nStandard deviation of sigma's: " + str(np.std(real_sigma_s_s[filename])))
         
@@ -118,6 +118,6 @@ def write_velocities(filenames, true_wavelength, real_mu_s_s, real_sigma_s_s, Q_
     plt.ylabel("Velocity (km/s)", fontsize = 25)
     if Q_V.upper() != 'Q':
             plt.show()
-    plt.savefig('Results' + '/Velocity_Over_Time' + '.pdf', bbox_inches='tight')
+    plt.savefig('Velocity of '+ str(true_wavelength) + '$\AA$ absorbtion line over time' + '.pdf', bbox_inches='tight')
     plt.close()
   

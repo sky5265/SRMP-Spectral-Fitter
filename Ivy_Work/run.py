@@ -31,7 +31,7 @@ def universe(Q_V = 'Q', data_dir = 'data/', user_extension = ''):
     lowerbound = float(input('what is the lowerbound?'))
     upperbound = float(input('what is the upperbound?'))
 
-    wavelengths_windows, fluxes_windows, wavelengths_normalizeds, fluxes_normalizeds = import_data(filenames, lowerbound, upperbound, Q_V = Q_V, data_dir = data_dir)
+    wavelengths_windows, fluxes_windows, wavelengths_normalizeds, fluxes_normalizeds = import_data(filenames, lowerbound, upperbound, true_wavelength, Q_V = Q_V, data_dir = data_dir)
 
     nwalkers = 20
     if Q_V.upper() != 'Q':
