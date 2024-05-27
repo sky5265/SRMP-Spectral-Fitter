@@ -14,7 +14,7 @@ def is_integer(n):
         return False
 
         
-def plot_and_denormalize (mu_s, sigma_s, c_s, D_s, err_s, filenames, wavelengths_normalizeds, fluxes_normalizeds, wavelengths_windows, fluxes_windows, lowerbound, upperbound, Q_V = 'Q'):
+def plot_and_denormalize (mu_s, sigma_s, c_s, D_s, err_s, filenames, true_wavelength, wavelengths_normalizeds, fluxes_normalizeds, wavelengths_windows, fluxes_windows, lowerbound, upperbound, Q_V = 'Q'):
 
     real_mu_s_s = {}
     real_sigma_s_s = {}
@@ -49,7 +49,7 @@ def plot_and_denormalize (mu_s, sigma_s, c_s, D_s, err_s, filenames, wavelengths
         plt.legend(fontsize = 15)
         if Q_V.upper() != 'Q':
             plt.show()
-        plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] + '/' + 'Normalized_fit_'+ filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
+        plt.savefig('Results_'+str(true_wavelength)+'/Spectrum_'+ filename[:filename.index('.txt')] + '/' + 'Normalized_fit_'+ filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
         plt.close()
       
         real_mu_s_s[filename] = last_mu_s * np.std(wavelengths_windows[filename]) + np.mean(wavelengths_windows[filename])
@@ -80,7 +80,7 @@ def plot_and_denormalize (mu_s, sigma_s, c_s, D_s, err_s, filenames, wavelengths
         plt.legend(fontsize = 15)
         if Q_V.upper() != 'Q':
             plt.show()
-        plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] + '/' + 'fit_'+ filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
+        plt.savefig('Results_'+str(true_wavelength)+'/Spectrum_'+ filename[:filename.index('.txt')] + '/' + 'fit_'+ filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
         plt.close()
 
     return real_mu_s_s, real_sigma_s_s, real_c_s_s
@@ -91,7 +91,6 @@ def write_velocities(filenames, true_wavelength, real_mu_s_s, real_sigma_s_s, Q_
     velocity_std_s = []
 
     output_dir = "Results_"+str(true_wavelength)+"/"
-    mkdir(output_dir)
 
     for filename in filenames:
         c_light = 3.0E5
@@ -102,7 +101,7 @@ def write_velocities(filenames, true_wavelength, real_mu_s_s, real_sigma_s_s, Q_
 
         velocity_s.append(velocity)
         velocity_std_s.append(velocity_std)
-        out = open('Results/Spectrum_'+ filename[:filename.index('.txt')] +'/Results_' + filename[:filename.index('.txt')] + '.txt', 'w')
+        out = open('Results_'+str(true_wavelength)+'/Spectrum_'+ filename[:filename.index('.txt')] +'/Results_' + filename[:filename.index('.txt')] + '.txt', 'w')
         out.write('Rest frame mean (observed wavelength) is at ' + str(np.median(real_mu_s_s[filename])) + '\nVelocity is '+ str(velocity) + ' km/s' + '\n' + 
         'Results of walkers:'+'\n'+ "Real mu's: " + str(real_mu_s_s[filename]) +'\n' + "Median of real mu's: " + str(np.median(real_mu_s_s[filename])) + "\nStandard deviation of mu's: " + str(np.std(real_mu_s_s[filename])) + '\n\n'
         "Real sigma's: " + str(real_sigma_s_s[filename]) + "\nMedian of real sigma's: " + str(np.median(real_sigma_s_s[filename])) + "\nStandard deviation of sigma's: " + str(np.std(real_sigma_s_s[filename])))

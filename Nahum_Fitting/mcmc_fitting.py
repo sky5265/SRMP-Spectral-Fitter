@@ -43,7 +43,7 @@ def create_initial_guesses(nwalkers):
     return initial_guesses
 
 
-def fitting(W_new, F_new, nwalkers, loss_function, n_iterations, filenames, Q_V = 'Q'):
+def fitting(true_wavelength, W_new, F_new, nwalkers, loss_function, n_iterations, filenames, Q_V = 'Q'):
   
     mu_s = {}
     sigma_s = {}
@@ -75,7 +75,7 @@ def fitting(W_new, F_new, nwalkers, loss_function, n_iterations, filenames, Q_V 
         fig = corner.corner(flat_samples, labels=labels, quiet = True);
         if Q_V.upper() != 'Q':
             plt.show()
-        plt.savefig('Results/Spectrum_'+ filename[:filename.index('.txt')] + '/' + 'Normalized_corner_'+ filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
+        plt.savefig('Results_'+str(true_wavelength)+'/Spectrum_'+ filename[:filename.index('.txt')] + '/' + 'Normalized_corner_'+ filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
         plt.close()
 
     return mu_s, sigma_s, c_s, D_s, err_s 
