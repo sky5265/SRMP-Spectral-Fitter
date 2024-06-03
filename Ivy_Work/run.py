@@ -23,6 +23,7 @@ def universe(Q_V = 'Q', data_dir = 'data/', user_extension = ''):
             if extension in str(file):
                 filenames.append(file)
 
+    #Example Oxygen line
     true_wavelength = 7775
     lowerbound = 7500
     upperbound = 7860

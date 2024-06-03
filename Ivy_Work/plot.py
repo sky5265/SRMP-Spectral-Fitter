@@ -125,6 +125,6 @@ def write_velocities(filenames, true_wavelength, real_mu_s_s, real_sigma_s_s, Q_
     plt.ylabel("Velocity (km/s)", fontsize = 25)
     if Q_V.upper() != 'Q':
             plt.show()
-    plt.savefig('Vel_'+ str(true_wavelength) + '.pdf', bbox_inches='tight')
+    plt.savefig('Results_'+str(true_wavelength)+'/Vel_'+ str(true_wavelength) + '.pdf', bbox_inches='tight')
     plt.close()
   
