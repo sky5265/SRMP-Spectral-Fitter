@@ -4,7 +4,7 @@ Hello! Thank you for using **SupSpec**!\
 `SupSpec` (**Sup**ernova **Spec**tra Fitter) is a quick tool which aids in finding the velocity structure of spectral features throughout the supernova ejecta. This code is designed to require minimal user interaction and can ingest an arbitrarily large number of spectra. With it, one can infer both the velocity of supernova ejecta expansion, and the relative depths of various elements in the ejecta. The user can input spectral data in a range of formats (.txt, .data, .out, etc.), choose a spectral line and window, and receive an output of graphs. 
 
 
-# Installation
+## Installation
 
 `SupSpec` is available on `pip` and can be installed using:
 
@@ -12,7 +12,7 @@ Hello! Thank you for using **SupSpec**!\
 pip install supspec
 ```
 
-# Using SupSpec
+## Using SupSpec
 
 Before using `SupSpec`, store all your data in a folder called "data" and run `run.py`. 
 
