@@ -4,6 +4,10 @@ import matplotlib.pyplot as plt
 import matplotlib
 import numpy as np
 import os
+import math
+from scipy.signal import savgol_filter
+import numpy as np
+import matplotlib.pyplot as plt
 
 matplotlib.rcParams['interactive'] == True
 
@@ -43,15 +47,36 @@ def import_data (filenames, x1, x2, true_wavelength, Q_V = 'Q', data_dir = 'data
         fig.supxlabel(r'Wavelength ($\AA$)', fontsize = 25)
         fig.supylabel(r"Flux", fontsize = 25)
         
+        
         colors = get_colors(3, 'chill')
         idx = np.where ((wavelengths > x1) & (wavelengths < x2))
         wavelengths_window = wavelengths[idx]
         fluxes_window = fluxes[idx]      
+        
+
+
+        f_to_keep = []
+        w_to_keep = []
+        for i in range(len(fluxes_window)):
+            y_smoothed=savgol_filter(fluxes_window, 30, 2)
+            sig=np.std(y_smoothed - fluxes_window)
+            n=3
+            
+            orig_flux = fluxes_window[i]
+            smooth_y = y_smoothed[i]
+            diff = abs(orig_flux - smooth_y)
+            
+            if diff < n*sig:
+           
+                f_to_keep.append(fluxes_window[i])
+                w_to_keep.append(wavelengths_window[i])
+
        
-        ax1.plot(wavelengths, fluxes, "b-", linewidth = 2, color = colors[0], alpha = 0.4)
+        ax1.plot(wavelengths, fluxes, linewidth = 2, color = colors[0], alpha = 0.4)
         ax1.plot(wavelengths[idx], fluxes[idx], "b-", linewidth = 4, color = colors[0], alpha = 1.0)
         ax1.vlines([x1, x2], min(fluxes), max(fluxes), linewidth = 2, color = colors[1])                     
-        ax2.plot(wavelengths_window, fluxes_window, "b-", linewidth = 3, color = colors[0])
+        ax2.plot(w_to_keep, f_to_keep, linewidth = 3, color = colors[0])
+        
         plt.savefig('Results_'+str(true_wavelength)+'/Spectrum_'+ filename[:filename.index('.txt')] +'/Spectrum_' + filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
         
         
@@ -65,8 +90,21 @@ def import_data (filenames, x1, x2, true_wavelength, Q_V = 'Q', data_dir = 'data
                 wavelengths_window = wavelengths[idx]
                 fluxes_window = fluxes[idx]
                 
+                
+                f_to_keep.clear()
+                w_to_keep.clear()
+                for i in range(len(fluxes_window)):
+                    y_smoothed=savgol_filter(fluxes_window, 30, 2)
+                    sig=np.std(y_smoothed - fluxes_window)
+                    n=3
+                    orig_flux = fluxes_window[i]
+                    smooth_y = y_smoothed[i]
+                    diff = abs(orig_flux - smooth_y)
+                    if diff < n*sig:
+                        f_to_keep.append(fluxes_window[i])
+                        w_to_keep.append(wavelengths_window[i])
                 ax2.cla()
-                ax2.plot(wavelengths_window, fluxes_window, "b-", linewidth = 3, color = colors[0])
+                ax2.plot(w_to_keep, f_to_keep, linewidth = 3, color = colors[0])
                 
                 ax1.cla()
                 ax1.plot(wavelengths, fluxes, "b-", linewidth = 2, color = colors[0], alpha = 0.4)
@@ -76,6 +114,7 @@ def import_data (filenames, x1, x2, true_wavelength, Q_V = 'Q', data_dir = 'data
                 
                 plt.pause(1)
                 
+            
                 ax1.cla()
                 ax1.plot(wavelengths, fluxes, "b-", linewidth = 2, color = colors[0], alpha = 0.4)
                 ax1.plot(wavelengths[idx], fluxes[idx], "b-", linewidth = 4, color = colors[0], alpha = 1.0)
@@ -85,10 +124,10 @@ def import_data (filenames, x1, x2, true_wavelength, Q_V = 'Q', data_dir = 'data
                 answer = input("Working on file " +filename+ ": Do you like the new window? y/n (y): ")
         plt.close()
         
-        wavelengths_normalized = (wavelengths_window - np.mean(wavelengths_window))/np.std(wavelengths_window)
-        fluxes_normalized = (fluxes_window- np.mean(fluxes_window))/np.std(fluxes_window)
-        wavelengths_windows[filename] = wavelengths_window
-        fluxes_windows[filename] = fluxes_window
+        wavelengths_normalized = (w_to_keep - np.mean(w_to_keep))/np.std(w_to_keep)
+        fluxes_normalized = (f_to_keep- np.mean(f_to_keep))/np.std(f_to_keep)
+        wavelengths_windows[filename] = w_to_keep
+        fluxes_windows[filename] = f_to_keep
         wavelengths_normalizeds[filename] = wavelengths_normalized
         fluxes_normalizeds[filename] = fluxes_normalized  
             

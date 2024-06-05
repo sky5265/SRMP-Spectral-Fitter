@@ -70,12 +70,5 @@ def fitting(true_wavelength, W_new, F_new, nwalkers, loss_function, n_iterations
         D_s[filename] = D_found
         err_s[filename] = err_found
 
-        flat_samples = sampler.get_chain(discard=100, thin=15, flat=True)
-        labels = ['mu', 'sigma', 'c', 'D', 'err']
-        fig = corner.corner(flat_samples, labels=labels, quiet = True);
-        if Q_V.upper() != 'Q':
-            plt.show()
-        plt.savefig('Results_'+str(true_wavelength)+'/Spectrum_'+ filename[:filename.index('.txt')] + '/' + 'Normalized_corner_'+ filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
-        plt.close()
-
+      
     return mu_s, sigma_s, c_s, D_s, err_s 

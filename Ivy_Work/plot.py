@@ -29,29 +29,6 @@ def plot_and_denormalize (mu_s, sigma_s, c_s, D_s, err_s, filenames, true_wavele
         last_D_s = D_s[filename][-1]
         last_err_s = err_s[filename][-1]
 
-        plt = get_pretty_plot()
-        x0 = np.linspace(-1.5,1.5,500)
-        plt.plot(wavelengths_normalizeds[filename], fluxes_normalizeds[filename], color = sKy_colors['light blue'],  label = filename)
-        plt.yticks([])
-        plt.title('Normalized fit of '+ filename[:filename.index('.txt')], fontsize = 35, weight = 'bold', pad=20)
-        labels_added = []
-        for walker in range(len(last_mu_s)):
-            mu = last_mu_s[walker]
-            sigma = last_sigma_s[walker]
-            c = last_c_s[walker]
-            D = last_D_s[walker]
-            y_fitted = normal_dist(x = x0, mu = mu, sigma= sigma, c = c, D=D)
-            if 'Fitted' not in labels_added:
-                plt.plot(x0, y_fitted, color = sKy_colors['dark mute red'], linewidth = 0.1, label = 'Fitted')
-                labels_added.append("Fitted")
-            else:
-                plt.plot(x0, y_fitted, color = sKy_colors['dark mute red'], linewidth = 2)
-        plt.legend(fontsize = 15)
-        if Q_V.upper() != 'Q':
-            plt.show()
-        plt.savefig('Results_'+str(true_wavelength)+'/Spectrum_'+ filename[:filename.index('.txt')] + '/' + 'Normalized_fit_'+ filename[:filename.index('.txt')] + '.pdf', bbox_inches='tight')
-        plt.close()
-      
         real_mu_s_s[filename] = last_mu_s * np.std(wavelengths_windows[filename]) + np.mean(wavelengths_windows[filename])
         real_sigma_s_s[filename] = last_sigma_s * np.std(wavelengths_windows[filename]) 
         real_c_s_s[filename] = last_c_s* np.std(fluxes_windows[filename]) + np.mean(fluxes_windows[filename])
