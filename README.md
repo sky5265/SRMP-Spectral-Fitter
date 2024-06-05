@@ -14,7 +14,7 @@ pip install supspec
 
 ## Using SupSpec
 
-Before using `SupSpec`, store all your data in a folder called "data" and run `run.py`. 
+Before using `SupSpec`, store all your data in a folder called "data". Then, open terminal at the location and run `run.py`. 
 
 ```
 python run.py 
@@ -22,8 +22,8 @@ python run.py
 
 You can also pass in 3 arguments at the terminal: mode, directory, and extension.
 - **Mode**: `-v` at the end of the command activates verbose mode. The default is quiet mode.
-- **Directory**: `-d *directory*` at the end of the command sets that directory as the directory which holds spectroscopy data. The default is "data".
-- **Extension**: `-e *file type*` extends the type of file for spectroscopy data (in addition to .txt, .data, or .out)
+- **Directory**: `-d *directory*` at the end of the command sets that directory as the directory which holds spectroscopy data. The default directory is a folder called "data" inside the current directory.
+- **Extension**: `-e *file type*` extends the type of file for spectroscopy data in addition to .txt, .data, or .out files.
 
 In verbose mode, the user can check the window of each spectrum, change the number of walkers and iterations, and view the results of every walker. In quiet mode, figures will not pop up but simply stored inside the Result folder.
 
