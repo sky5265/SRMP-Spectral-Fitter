@@ -14,7 +14,7 @@ pip install supspec
 
 ## Using SupSpec
 
-Before using `SupSpec`, store all your data in a folder called "data". Then, open terminal at the location and run `run.py`. 
+Before using `SupSpec`, store all your data in a folder called "data". Then, open terminal at the location and run `supspec`. 
 
 ```
 supspec 
