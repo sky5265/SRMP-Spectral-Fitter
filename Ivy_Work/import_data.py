@@ -73,7 +73,7 @@ def import_data (filenames, x1, x2, true_wavelength, Q_V = 'Q', data_dir = 'data
 
        
         ax1.plot(wavelengths, fluxes, linewidth = 2, color = colors[0], alpha = 0.4)
-        ax1.plot(wavelengths[idx], fluxes[idx], "b-", linewidth = 4, color = colors[0], alpha = 1.0)
+        ax1.plot(wavelengths[idx], fluxes[idx], linewidth = 4, color = colors[0], alpha = 1.0)
         ax1.vlines([x1, x2], min(fluxes), max(fluxes), linewidth = 2, color = colors[1])                     
         ax2.plot(w_to_keep, f_to_keep, linewidth = 3, color = colors[0])
         
@@ -114,7 +114,6 @@ def import_data (filenames, x1, x2, true_wavelength, Q_V = 'Q', data_dir = 'data
                 
                 plt.pause(1)
                 
-            
                 ax1.cla()
                 ax1.plot(wavelengths, fluxes, "b-", linewidth = 2, color = colors[0], alpha = 0.4)
                 ax1.plot(wavelengths[idx], fluxes[idx], "b-", linewidth = 4, color = colors[0], alpha = 1.0)

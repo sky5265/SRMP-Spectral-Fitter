@@ -35,6 +35,7 @@ def plot_and_denormalize (mu_s, sigma_s, c_s, D_s, err_s, filenames, true_wavele
         real_D_s_s[filename] = last_D_s* np.std(fluxes_windows[filename])
         
         plt = get_pretty_plot()
+        x0 = np.linspace(-1.5,1.5,500)
         x1 = np.linspace(lowerbound,upperbound,500)
         plt.plot(wavelengths_windows[filename], fluxes_windows[filename], color = sKy_colors['light blue'], label = filename, )
         plt.yticks([])
