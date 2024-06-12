@@ -17,7 +17,7 @@ pip install supspec
 Before using `SupSpec`, store all your data in a folder called "data". Then, open terminal at the location and run `run.py`. 
 
 ```
-python run.py 
+supspec 
 ```
 
 You can also pass in 3 arguments at the terminal: mode, directory, and extension.
@@ -27,8 +27,8 @@ You can also pass in 3 arguments at the terminal: mode, directory, and extension
 
 In verbose mode, the user can check the window of each spectrum, change the number of walkers and iterations, and view the results of every walker. In quiet mode, figures will not pop up but simply stored inside the Result folder.
 
-For example, if I wish to use verbose mode, and my data is stored in a folder called `spectra/`. I would type in the command:
+For example, if I wish to use verbose mode, and my data is stored in a folder called `spectra/` inside the directory I opened the terminal, I would type in the command:
 
 ```
-python run.py -v -d spectra
+supspec -v -d spectra
 ```
